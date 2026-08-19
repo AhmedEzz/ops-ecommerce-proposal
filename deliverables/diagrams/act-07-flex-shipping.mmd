@@ -1,0 +1,68 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start(["Shipment event received from Bosta"]) --> classify{"Event carries a<br/>flex ship / compensation<br/>marker?"}
+
+    classify -->|no| normal["Normal shipping cost applies"]
+    normal --> done
+
+    classify -->|yes| detect["<b>Flex Shipping detected</b><br/><i>3,181 items marked Apply FlexShip;<br/>141 marked Reject FlexShip</i>"]
+
+    Note1["Today this is reconciled by hand against<br/>Bosta statements. 3,181 compensations over<br/>7 months is roughly 15 per working day<br/>being matched manually."]
+    detect -.- Note1
+
+    detect --> match{"Match compensation<br/>to an order_item?"}
+
+    match -->|"matched by AWB"| bind["Bind compensation<br/>to the order_item"]
+    match -->|"no match found"| orphan["<b>Orphan compensation</b><br/>-> reconciliation exception queue"]
+
+    orphan --> chase["Finance investigates<br/>against Bosta statement"]
+    chase --> manualbind{"Resolved?"}
+    manualbind -->|yes| bind
+    manualbind -->|"no - after SLA"| dispute["Raise dispute with 3PL"]
+    dispute --> done
+
+    bind --> status{"Compensation<br/>status"}
+
+    status -->|"Apply FlexShip"| apply["<b>Apply compensation</b>"]
+    status -->|"Reject FlexShip"| rejected["Compensation rejected by 3PL<br/><i>full shipping cost stands</i>"]
+    status -->|"pending decision"| pending["Hold as receivable<br/><i>accrue, do not recognise</i>"]
+
+    pending --> wait["Await 3PL decision"]
+    wait --> status
+
+    apply --> value["Compute effective shipping cost<br/><i>original cost - compensation</i>"]
+
+    value --> snap["<b>Append a new FINANCIAL_SNAPSHOT</b><br/><i>reason = flex_ship_compensation</i>"]
+
+    Note2["A compensation NEVER edits the original<br/>snapshot. It appends a new one, dated when<br/>the compensation was confirmed. The item's<br/>margin at time of sale stays intact, and the<br/>improvement is attributable to a date.<br/>(Requirement 6.3)"]
+    snap -.- Note2
+
+    snap --> whose{"Who bears the<br/>shipping cost?"}
+
+    whose -->|"platform absorbs"| platform["Credit platform margin"]
+    whose -->|"vendor is charged shipping"| vendorled["Post ledger credit<br/>to vendor<br/><i>appears at next settlement</i>"]
+
+    platform --> report
+    vendorled --> report
+    rejected --> report
+
+    report["<b>Reflect in reporting</b><br/>Requirement 3.4"]
+
+    report --> r1["Financial dashboard<br/><i>net shipping cost</i>"]
+    report --> r2["P&L - shipping line"]
+    report --> r3["3PL performance analytics<br/><i>compensation rate by courier</i>"]
+    report --> r4["Item-level profitability<br/><i>Requirement 12.2</i>"]
+
+    r1 & r2 & r3 & r4 --> done([Reflected in live dashboards])
+
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef hot fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px
+    classDef note fill:#f8fafc,stroke:#94a3b8,color:#475569
+
+    class apply,bind,platform,vendorled,done,value good
+    class orphan,dispute,rejected bad
+    class pending,wait,chase,manualbind warn
+    class detect,snap,report hot
+    class Note1,Note2 note

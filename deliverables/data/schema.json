@@ -1,0 +1,583 @@
+{
+  "OOS Orders": {
+    "row_count": 478,
+    "columns": [
+      {
+        "name": "Order Date",
+        "filled": 478,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "datetime": 478
+        },
+        "redacted": false
+      },
+      {
+        "name": "Order Number",
+        "filled": 478,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 478
+        },
+        "redacted": false
+      },
+      {
+        "name": "Reason For Late",
+        "filled": 478,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 478
+        },
+        "redacted": true
+      },
+      {
+        "name": "CS Action",
+        "filled": 478,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 478
+        },
+        "redacted": false
+      },
+      {
+        "name": "sku",
+        "filled": 258,
+        "fill_rate": 0.5397,
+        "observed_types": {
+          "str": 254,
+          "float": 4
+        },
+        "redacted": false
+      },
+      {
+        "name": "Comment Nada",
+        "filled": 32,
+        "fill_rate": 0.0669,
+        "observed_types": {
+          "str": 32
+        },
+        "redacted": true
+      },
+      {
+        "name": "Comment Maryam",
+        "filled": 101,
+        "fill_rate": 0.2113,
+        "observed_types": {
+          "str": 101
+        },
+        "redacted": true
+      },
+      {
+        "name": "Comment OPS",
+        "filled": 0,
+        "fill_rate": 0.0,
+        "observed_types": {},
+        "redacted": true
+      }
+    ]
+  },
+  "Copy of Orders": {
+    "row_count": 18341,
+    "columns": [
+      {
+        "name": "Order date",
+        "filled": 17371,
+        "fill_rate": 0.9471,
+        "observed_types": {
+          "datetime": 17371
+        },
+        "redacted": false
+      },
+      {
+        "name": "Vendor Orders",
+        "filled": 17371,
+        "fill_rate": 0.9471,
+        "observed_types": {
+          "str": 17371
+        },
+        "redacted": false
+      },
+      {
+        "name": "Customer Orders",
+        "filled": 12845,
+        "fill_rate": 0.7003,
+        "observed_types": {
+          "str": 12845
+        },
+        "redacted": false
+      },
+      {
+        "name": "Multi or Single",
+        "filled": 17371,
+        "fill_rate": 0.9471,
+        "observed_types": {
+          "str": 17371
+        },
+        "redacted": false
+      },
+      {
+        "name": "Vendor Name",
+        "filled": 17370,
+        "fill_rate": 0.9471,
+        "observed_types": {
+          "str": 17370
+        },
+        "redacted": false
+      },
+      {
+        "name": "AWB",
+        "filled": 17371,
+        "fill_rate": 0.9471,
+        "observed_types": {
+          "str": 17371
+        },
+        "redacted": false
+      },
+      {
+        "name": "SKU",
+        "filled": 17192,
+        "fill_rate": 0.9374,
+        "observed_types": {
+          "str": 15993,
+          "float": 1199
+        },
+        "redacted": false
+      },
+      {
+        "name": "Item Name",
+        "filled": 17370,
+        "fill_rate": 0.9471,
+        "observed_types": {
+          "str": 17369,
+          "float": 1
+        },
+        "redacted": false
+      },
+      {
+        "name": "Item price",
+        "filled": 17369,
+        "fill_rate": 0.947,
+        "observed_types": {
+          "float": 17369
+        },
+        "redacted": false
+      },
+      {
+        "name": "Shipping Fees",
+        "filled": 17366,
+        "fill_rate": 0.9468,
+        "observed_types": {
+          "float": 17366
+        },
+        "redacted": false
+      },
+      {
+        "name": "Payment Method",
+        "filled": 17371,
+        "fill_rate": 0.9471,
+        "observed_types": {
+          "str": 17369,
+          "datetime": 2
+        },
+        "redacted": false
+      },
+      {
+        "name": "Lineitem quantity",
+        "filled": 17369,
+        "fill_rate": 0.947,
+        "observed_types": {
+          "float": 17369
+        },
+        "redacted": false
+      },
+      {
+        "name": "Governorate",
+        "filled": 12846,
+        "fill_rate": 0.7004,
+        "observed_types": {
+          "str": 12846
+        },
+        "redacted": false
+      },
+      {
+        "name": "Area",
+        "filled": 12809,
+        "fill_rate": 0.6984,
+        "observed_types": {
+          "str": 12809
+        },
+        "redacted": false
+      },
+      {
+        "name": "AWB Creation Date",
+        "filled": 17246,
+        "fill_rate": 0.9403,
+        "observed_types": {
+          "datetime": 17246
+        },
+        "redacted": false
+      },
+      {
+        "name": "CS SLA",
+        "filled": 17334,
+        "fill_rate": 0.9451,
+        "observed_types": {
+          "int": 17334
+        },
+        "redacted": false
+      },
+      {
+        "name": "Bosta Pick up",
+        "filled": 15947,
+        "fill_rate": 0.8695,
+        "observed_types": {
+          "datetime": 15947
+        },
+        "redacted": false
+      },
+      {
+        "name": "FM SLA",
+        "filled": 17334,
+        "fill_rate": 0.9451,
+        "observed_types": {
+          "int": 17334
+        },
+        "redacted": false
+      },
+      {
+        "name": "Delivere Date",
+        "filled": 15756,
+        "fill_rate": 0.8591,
+        "observed_types": {
+          "datetime": 15756
+        },
+        "redacted": false
+      },
+      {
+        "name": "Delivere SLA",
+        "filled": 17335,
+        "fill_rate": 0.9452,
+        "observed_types": {
+          "int": 17335
+        },
+        "redacted": false
+      },
+      {
+        "name": "Return Request Date",
+        "filled": 773,
+        "fill_rate": 0.0421,
+        "observed_types": {
+          "datetime": 622,
+          "float": 151
+        },
+        "redacted": false
+      },
+      {
+        "name": "Return Date",
+        "filled": 6665,
+        "fill_rate": 0.3634,
+        "observed_types": {
+          "datetime": 6665
+        },
+        "redacted": false
+      },
+      {
+        "name": "Return SLA",
+        "filled": 17335,
+        "fill_rate": 0.9452,
+        "observed_types": {
+          "int": 17335
+        },
+        "redacted": false
+      },
+      {
+        "name": "Final status",
+        "filled": 17371,
+        "fill_rate": 0.9471,
+        "observed_types": {
+          "str": 17371
+        },
+        "redacted": false
+      },
+      {
+        "name": "Stakeholder",
+        "filled": 8382,
+        "fill_rate": 0.457,
+        "observed_types": {
+          "str": 8382
+        },
+        "redacted": false
+      },
+      {
+        "name": "Reasons",
+        "filled": 8377,
+        "fill_rate": 0.4567,
+        "observed_types": {
+          "str": 8377
+        },
+        "redacted": false
+      },
+      {
+        "name": "Vendor Penalty",
+        "filled": 319,
+        "fill_rate": 0.0174,
+        "observed_types": {
+          "str": 319
+        },
+        "redacted": false
+      },
+      {
+        "name": "Penalty Date",
+        "filled": 323,
+        "fill_rate": 0.0176,
+        "observed_types": {
+          "datetime": 316,
+          "str": 7
+        },
+        "redacted": false
+      },
+      {
+        "name": "Comment",
+        "filled": 9278,
+        "fill_rate": 0.5059,
+        "observed_types": {
+          "str": 9278
+        },
+        "redacted": true
+      },
+      {
+        "name": "Recall Status",
+        "filled": 3170,
+        "fill_rate": 0.1728,
+        "observed_types": {
+          "str": 3170
+        },
+        "redacted": false
+      },
+      {
+        "name": "Bosta FlexShip",
+        "filled": 3322,
+        "fill_rate": 0.1811,
+        "observed_types": {
+          "str": 3322
+        },
+        "redacted": false
+      },
+      {
+        "name": "QC Checkbox",
+        "filled": 18339,
+        "fill_rate": 0.9999,
+        "observed_types": {
+          "bool": 18339
+        },
+        "redacted": false
+      }
+    ]
+  },
+  "Copy of Vendor Penalty": {
+    "row_count": 51,
+    "columns": [
+      {
+        "name": "Date",
+        "filled": 51,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "datetime": 51
+        },
+        "redacted": false
+      },
+      {
+        "name": "Order Number",
+        "filled": 51,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 51
+        },
+        "redacted": false
+      },
+      {
+        "name": "Vendor",
+        "filled": 51,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 51
+        },
+        "redacted": false
+      },
+      {
+        "name": "SKU",
+        "filled": 49,
+        "fill_rate": 0.9608,
+        "observed_types": {
+          "str": 47,
+          "float": 2
+        },
+        "redacted": false
+      },
+      {
+        "name": "Item price",
+        "filled": 51,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "float": 51
+        },
+        "redacted": false
+      },
+      {
+        "name": "Reasons",
+        "filled": 51,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 51
+        },
+        "redacted": false
+      },
+      {
+        "name": "Vendor Commission",
+        "filled": 0,
+        "fill_rate": 0.0,
+        "observed_types": {},
+        "redacted": false
+      }
+    ]
+  },
+  "Copy of Return Bosta": {
+    "row_count": 22,
+    "columns": [
+      {
+        "name": "Bosta Tracking",
+        "filled": 0,
+        "fill_rate": 0.0,
+        "observed_types": {},
+        "redacted": false
+      },
+      {
+        "name": "Order Number",
+        "filled": 22,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 21,
+          "float": 1
+        },
+        "redacted": false
+      },
+      {
+        "name": "Amount",
+        "filled": 21,
+        "fill_rate": 0.9545,
+        "observed_types": {
+          "float": 21
+        },
+        "redacted": false
+      },
+      {
+        "name": "Comment",
+        "filled": 19,
+        "fill_rate": 0.8636,
+        "observed_types": {
+          "str": 19
+        },
+        "redacted": true
+      }
+    ]
+  },
+  "Copy of Bosta Compensation ": {
+    "row_count": 70,
+    "columns": [
+      {
+        "name": "Date",
+        "filled": 70,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "datetime": 70
+        },
+        "redacted": false
+      },
+      {
+        "name": "Order ID",
+        "filled": 70,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 63,
+          "float": 7
+        },
+        "redacted": false
+      },
+      {
+        "name": "Compensation Amount",
+        "filled": 69,
+        "fill_rate": 0.9857,
+        "observed_types": {
+          "float": 62,
+          "str": 7
+        },
+        "redacted": false
+      },
+      {
+        "name": "Comment",
+        "filled": 69,
+        "fill_rate": 0.9857,
+        "observed_types": {
+          "str": 69
+        },
+        "redacted": true
+      },
+      {
+        "name": "Arrival",
+        "filled": 0,
+        "fill_rate": 0.0,
+        "observed_types": {},
+        "redacted": false
+      }
+    ]
+  },
+  "Copy of Staff Orders": {
+    "row_count": 4,
+    "columns": [
+      {
+        "name": "Order Date",
+        "filled": 4,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "datetime": 4
+        },
+        "redacted": false
+      },
+      {
+        "name": "Staff Name",
+        "filled": 4,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 4
+        },
+        "redacted": false
+      },
+      {
+        "name": "Vendor Orders",
+        "filled": 4,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "str": 4
+        },
+        "redacted": false
+      },
+      {
+        "name": "Order Price",
+        "filled": 4,
+        "fill_rate": 1.0,
+        "observed_types": {
+          "float": 4
+        },
+        "redacted": false
+      },
+      {
+        "name": "Status",
+        "filled": 2,
+        "fill_rate": 0.5,
+        "observed_types": {
+          "str": 2
+        },
+        "redacted": false
+      }
+    ]
+  }
+}

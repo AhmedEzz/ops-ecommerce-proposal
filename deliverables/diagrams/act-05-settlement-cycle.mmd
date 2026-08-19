@@ -1,0 +1,79 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start([Settlement cycle due for vendor]) --> gather["Read all UNSETTLED<br/>vendor_ledger_entries"]
+
+    gather --> lines["<b>Ledger lines in scope</b>"]
+
+    lines --> l1["+ SALE credits<br/><i>delivered items only</i>"]
+    lines --> l2["- COMMISSION<br/><i>platform take rate</i>"]
+    lines --> l3["- SHIPPING allocation"]
+    lines --> l4["- PENALTIES<br/><i>defects, OOS, SLA breach</i>"]
+    lines --> l5["- RETURN_REVERSALS<br/><i>Req 8.7</i>"]
+    lines --> l6["+/- EXCHANGE deltas"]
+    lines --> l7["+/- manual ADJUSTMENTS<br/>and BONUSES"]
+    lines --> l8["+ FLEX SHIP compensation<br/><i>where passed through</i>"]
+
+    l1 & l2 & l3 & l4 & l5 & l6 & l7 & l8 --> net["<b>Net payable = sum(signed amounts)</b>"]
+
+    Note1["Every line traces to a specific order_item.<br/>Nothing is derived from a spreadsheet<br/>formula - the ledger IS the calculation.<br/>This is what makes settlements auditable."]
+    net -.- Note1
+
+    net --> sign{"Net payable<br/>positive?"}
+
+    sign -->|"negative<br/>(returns exceeded sales)"| carry["Carry debit balance<br/>to next cycle"]
+    carry --> notifyv["Notify vendor of<br/>outstanding balance"]
+    notifyv --> endc([Cycle closed - no payout])
+
+    sign -->|"zero"| endc
+    sign -->|positive| draft["Generate DRAFT statement<br/>+ SETTLEMENT_LINES"]
+
+    draft --> preview["Publish preview<br/>to vendor portal"]
+
+    preview --> dispute{"Vendor raises<br/>a dispute?"}
+    dispute -->|yes| review["Finance reviews<br/>the disputed lines"]
+    review --> adjust{"Adjustment<br/>warranted?"}
+    adjust -->|yes| adj["Post ADJUSTMENT entry<br/><i>never edit history</i>"]
+    adj --> net
+    adjust -->|no| explain["Respond with<br/>line-level evidence"]
+    explain --> approve
+
+    dispute -->|no| approve
+
+    approve{"<b>Finance approval</b><br/><i>human gate - always</i>"}
+
+    Note2["The approval gate stays even after<br/>Paymob Send automation lands in Phase 2.<br/>Money never moves on an automated<br/>decision alone."]
+    approve -.- Note2
+
+    approve -->|rejected| review
+    approve -->|approved| pay{"Disbursement<br/>method"}
+
+    pay -->|"Phase 1 - manual"| manual["Bank / wallet transfer<br/>by finance"]
+    pay -->|"Phase 2 - automated"| auto["Paymob Send<br/><i>with idempotency key</i>"]
+
+    manual --> proof["Upload transfer proof"]
+
+    auto --> callback{"Disbursement<br/>callback"}
+    callback -->|success| proof
+    callback -->|failed| fail["Mark failed + alert finance<br/><b>do NOT auto-retry</b>"]
+
+    Note3["Retrying a payout without an idempotency<br/>key is how vendors get paid twice.<br/>Failed payouts are always a human decision."]
+    fail -.- Note3
+
+    fail --> review
+
+    proof --> mark["Mark ledger entries settled<br/><i>link to settlement_line</i>"]
+    mark --> publish["Publish statement + proof<br/>to vendor portal"]
+    publish --> notify["Email vendor<br/><i>payout processed</i>"]
+    notify --> done([Cycle closed - settled])
+
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef hot fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px
+    classDef note fill:#f8fafc,stroke:#94a3b8,color:#475569
+
+    class done,proof,mark,publish,notify good
+    class fail,carry,l4,l5 bad
+    class dispute,review,adj,explain,manual warn
+    class net,approve,lines hot
+    class Note1,Note2,Note3 note

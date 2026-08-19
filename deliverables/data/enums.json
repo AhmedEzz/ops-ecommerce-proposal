@@ -1,0 +1,1248 @@
+{
+  "OOS Orders": {
+    "Reason For Late": {
+      "distinct": 14,
+      "values": [
+        {
+          "value": "OOS",
+          "count": 376
+        },
+        {
+          "value": "Runes delay",
+          "count": 30
+        },
+        {
+          "value": "Hesper delay",
+          "count": 27
+        },
+        {
+          "value": "Katee delay",
+          "count": 13
+        },
+        {
+          "value": "XO delay",
+          "count": 11
+        },
+        {
+          "value": "iLady delay",
+          "count": 6
+        },
+        {
+          "value": "Leocansa delay",
+          "count": 5
+        },
+        {
+          "value": "Libra delay",
+          "count": 2
+        },
+        {
+          "value": "Shoeroom delay",
+          "count": 2
+        },
+        {
+          "value": "Carina delay",
+          "count": 2
+        },
+        {
+          "value": "Mr.Joe delay",
+          "count": 1
+        },
+        {
+          "value": "Glitter delay",
+          "count": 1
+        },
+        {
+          "value": "Clue delay",
+          "count": 1
+        },
+        {
+          "value": "Navy delay",
+          "count": 1
+        }
+      ]
+    },
+    "CS Action": {
+      "distinct": 3,
+      "values": [
+        {
+          "value": "Cancelled",
+          "count": 300
+        },
+        {
+          "value": "Done",
+          "count": 166
+        },
+        {
+          "value": "no answer",
+          "count": 12
+        }
+      ]
+    }
+  },
+  "Copy of Orders": {
+    "Multi or Single": {
+      "distinct": 3,
+      "values": [
+        {
+          "value": "Single",
+          "count": 13261
+        },
+        {
+          "value": "Multi",
+          "count": 4110
+        },
+        {
+          "value": "(blank)",
+          "count": 970
+        }
+      ]
+    },
+    "Vendor Name": {
+      "distinct": 83,
+      "values": [
+        {
+          "value": "MALABISY",
+          "count": 2942
+        },
+        {
+          "value": "Xo style",
+          "count": 2897
+        },
+        {
+          "value": "Onda",
+          "count": 1431
+        },
+        {
+          "value": "Hoolt",
+          "count": 1392
+        },
+        {
+          "value": "Leocansa",
+          "count": 1318
+        },
+        {
+          "value": "Carinawear",
+          "count": 998
+        },
+        {
+          "value": "(blank)",
+          "count": 971
+        },
+        {
+          "value": "Clue",
+          "count": 639
+        },
+        {
+          "value": "Mr.joe",
+          "count": 564
+        },
+        {
+          "value": "Shoeroom",
+          "count": 514
+        },
+        {
+          "value": "Libra",
+          "count": 509
+        },
+        {
+          "value": "Aida",
+          "count": 439
+        },
+        {
+          "value": "Menaksha",
+          "count": 431
+        },
+        {
+          "value": "Runes",
+          "count": 348
+        },
+        {
+          "value": "B.S COLLECTION",
+          "count": 255
+        },
+        {
+          "value": "Glitter",
+          "count": 248
+        },
+        {
+          "value": "Viola",
+          "count": 201
+        },
+        {
+          "value": "Tujoo",
+          "count": 194
+        },
+        {
+          "value": "Amaze",
+          "count": 191
+        },
+        {
+          "value": "Hesper",
+          "count": 170
+        },
+        {
+          "value": "hesper",
+          "count": 163
+        },
+        {
+          "value": "SUWA",
+          "count": 153
+        },
+        {
+          "value": "kateebykristina",
+          "count": 135
+        },
+        {
+          "value": "Fluffy accessories",
+          "count": 98
+        },
+        {
+          "value": "iLADY",
+          "count": 92
+        },
+        {
+          "value": "Parrot",
+          "count": 84
+        },
+        {
+          "value": "Tobay",
+          "count": 80
+        },
+        {
+          "value": "Uji",
+          "count": 73
+        },
+        {
+          "value": "NTRIO",
+          "count": 72
+        },
+        {
+          "value": "KAVA",
+          "count": 67
+        },
+        {
+          "value": "Virmo",
+          "count": 52
+        },
+        {
+          "value": "SheChick",
+          "count": 51
+        },
+        {
+          "value": "Eve Chantelle",
+          "count": 50
+        },
+        {
+          "value": "KEEN",
+          "count": 47
+        },
+        {
+          "value": "Azya2",
+          "count": 46
+        },
+        {
+          "value": "HANS",
+          "count": 43
+        },
+        {
+          "value": "Miss Venus",
+          "count": 35
+        },
+        {
+          "value": "Hijab House",
+          "count": 32
+        },
+        {
+          "value": "Navy",
+          "count": 23
+        },
+        {
+          "value": "Booria",
+          "count": 22
+        },
+        {
+          "value": "Havanasocks",
+          "count": 21
+        },
+        {
+          "value": "Gento",
+          "count": 21
+        },
+        {
+          "value": "Just 4 Women (JW)",
+          "count": 18
+        },
+        {
+          "value": "Marwa Elezaby",
+          "count": 17
+        },
+        {
+          "value": "The PG Designs",
+          "count": 17
+        },
+        {
+          "value": "Karohat",
+          "count": 15
+        },
+        {
+          "value": "Bedour",
+          "count": 15
+        },
+        {
+          "value": "DS Handmade",
+          "count": 15
+        },
+        {
+          "value": "LUKINS",
+          "count": 11
+        },
+        {
+          "value": "Zlea",
+          "count": 11
+        },
+        {
+          "value": "Champs Land",
+          "count": 10
+        },
+        {
+          "value": "Chertex",
+          "count": 9
+        },
+        {
+          "value": "Gorilla Outfit",
+          "count": 9
+        },
+        {
+          "value": "Remark",
+          "count": 8
+        },
+        {
+          "value": "V Y C",
+          "count": 7
+        },
+        {
+          "value": "Soly's",
+          "count": 7
+        },
+        {
+          "value": "My Store(Onda)",
+          "count": 6
+        },
+        {
+          "value": "Sheek",
+          "count": 6
+        },
+        {
+          "value": "Exit",
+          "count": 6
+        },
+        {
+          "value": "khayal",
+          "count": 5
+        },
+        {
+          "value": "Soly",
+          "count": 5
+        },
+        {
+          "value": "Red Circle",
+          "count": 5
+        },
+        {
+          "value": "Xo Style",
+          "count": 3
+        },
+        {
+          "value": "Hero Basic",
+          "count": 2
+        },
+        {
+          "value": "Lunera",
+          "count": 2
+        },
+        {
+          "value": "My Store",
+          "count": 2
+        },
+        {
+          "value": "PIA",
+          "count": 2
+        },
+        {
+          "value": "Leazus",
+          "count": 1
+        },
+        {
+          "value": "Havana Socks",
+          "count": 1
+        },
+        {
+          "value": "Basic Wear",
+          "count": 1
+        },
+        {
+          "value": "99 THREADS",
+          "count": 1
+        },
+        {
+          "value": "Malabisy",
+          "count": 1
+        },
+        {
+          "value": "Havanascoks",
+          "count": 1
+        },
+        {
+          "value": "My Store(Leocansa)",
+          "count": 1
+        },
+        {
+          "value": "The PG Design",
+          "count": 1
+        },
+        {
+          "value": "Nart",
+          "count": 1
+        },
+        {
+          "value": "onda",
+          "count": 1
+        },
+        {
+          "value": "Dapperz",
+          "count": 1
+        },
+        {
+          "value": "egykava",
+          "count": 1
+        },
+        {
+          "value": "Onda Egypt",
+          "count": 1
+        },
+        {
+          "value": "Ward",
+          "count": 1
+        },
+        {
+          "value": "J4WJust 4 Women (JW)",
+          "count": 1
+        },
+        {
+          "value": "Eve chantelle",
+          "count": 1
+        }
+      ]
+    },
+    "AWB": {
+      "distinct": 5,
+      "values": [
+        {
+          "value": "Done",
+          "count": 12663
+        },
+        {
+          "value": "V Done",
+          "count": 3440
+        },
+        {
+          "value": "Cancelled",
+          "count": 1255
+        },
+        {
+          "value": "(blank)",
+          "count": 970
+        },
+        {
+          "value": "M Done",
+          "count": 13
+        }
+      ]
+    },
+    "Payment Method": {
+      "distinct": 13,
+      "values": [
+        {
+          "value": "Cash on Delivery (COD)",
+          "count": 16460
+        },
+        {
+          "value": "(blank)",
+          "count": 970
+        },
+        {
+          "value": "Paymob",
+          "count": 793
+        },
+        {
+          "value": "Gift Card + Cash on Delivery (COD)",
+          "count": 45
+        },
+        {
+          "value": "Paymob + Cash on Delivery (COD)",
+          "count": 25
+        },
+        {
+          "value": "Gift Card",
+          "count": 17
+        },
+        {
+          "value": "Paymob + Gift Card",
+          "count": 15
+        },
+        {
+          "value": "cash on Delivery (COD)",
+          "count": 8
+        },
+        {
+          "value": "Shopify Store Credit + Cash on Delivery (COD)",
+          "count": 3
+        },
+        {
+          "value": "CAsh on Delivery (COD)",
+          "count": 2
+        },
+        {
+          "value": "2026-03-29",
+          "count": 1
+        },
+        {
+          "value": "2026-03-30",
+          "count": 1
+        },
+        {
+          "value": "Cash on Delivery (COD) + Paymob",
+          "count": 1
+        }
+      ]
+    },
+    "Governorate": {
+      "distinct": 33,
+      "values": [
+        {
+          "value": "القاهره",
+          "count": 7585
+        },
+        {
+          "value": "(blank)",
+          "count": 5495
+        },
+        {
+          "value": "الجيزة",
+          "count": 2821
+        },
+        {
+          "value": "اسكندرية",
+          "count": 993
+        },
+        {
+          "value": "الشرقية",
+          "count": 178
+        },
+        {
+          "value": "الدقهليه",
+          "count": 173
+        },
+        {
+          "value": "الغربيه",
+          "count": 156
+        },
+        {
+          "value": "الغردقه",
+          "count": 81
+        },
+        {
+          "value": "القليوبيه",
+          "count": 81
+        },
+        {
+          "value": "المنوفية",
+          "count": 75
+        },
+        {
+          "value": "دمياط",
+          "count": 68
+        },
+        {
+          "value": "بورسعيد",
+          "count": 57
+        },
+        {
+          "value": "كفر الشيخ",
+          "count": 56
+        },
+        {
+          "value": "الاسماعيليه",
+          "count": 53
+        },
+        {
+          "value": "السويس",
+          "count": 47
+        },
+        {
+          "value": "أسيوط",
+          "count": 46
+        },
+        {
+          "value": "البحيره",
+          "count": 44
+        },
+        {
+          "value": "شرم الشيخ",
+          "count": 38
+        },
+        {
+          "value": "بني سويف",
+          "count": 34
+        },
+        {
+          "value": "الفيوم",
+          "count": 34
+        },
+        {
+          "value": "أسوان",
+          "count": 34
+        },
+        {
+          "value": "المنيا",
+          "count": 33
+        },
+        {
+          "value": "سوهاج",
+          "count": 26
+        },
+        {
+          "value": "الساحل الشمالي",
+          "count": 26
+        },
+        {
+          "value": "مرسى مطروح",
+          "count": 25
+        },
+        {
+          "value": "حلوان",
+          "count": 20
+        },
+        {
+          "value": "سيناء",
+          "count": 19
+        },
+        {
+          "value": "الأقصر",
+          "count": 16
+        },
+        {
+          "value": "المنصورة",
+          "count": 11
+        },
+        {
+          "value": "قنا",
+          "count": 8
+        },
+        {
+          "value": "اسيوط",
+          "count": 6
+        },
+        {
+          "value": "الزقازيق",
+          "count": 1
+        },
+        {
+          "value": "الاقصر",
+          "count": 1
+        }
+      ]
+    },
+    "Final status": {
+      "distinct": 10,
+      "values": [
+        {
+          "value": "Delivered",
+          "count": 9036
+        },
+        {
+          "value": "FD Allow Open Shipment",
+          "count": 3743
+        },
+        {
+          "value": "RTO",
+          "count": 2359
+        },
+        {
+          "value": "Cancelled",
+          "count": 1307
+        },
+        {
+          "value": "(blank)",
+          "count": 970
+        },
+        {
+          "value": "Returned",
+          "count": 612
+        },
+        {
+          "value": "Out for Delivery",
+          "count": 174
+        },
+        {
+          "value": "Pending",
+          "count": 96
+        },
+        {
+          "value": "Ready To Shipped",
+          "count": 29
+        },
+        {
+          "value": "Under Return",
+          "count": 15
+        }
+      ]
+    },
+    "Stakeholder": {
+      "distinct": 13,
+      "values": [
+        {
+          "value": "(blank)",
+          "count": 9959
+        },
+        {
+          "value": "Commercial",
+          "count": 2881
+        },
+        {
+          "value": "Marketing",
+          "count": 2600
+        },
+        {
+          "value": "Customer Behavior",
+          "count": 1833
+        },
+        {
+          "value": "No Answer",
+          "count": 501
+        },
+        {
+          "value": "Ops",
+          "count": 308
+        },
+        {
+          "value": "CS",
+          "count": 181
+        },
+        {
+          "value": "Tech",
+          "count": 28
+        },
+        {
+          "value": "Marketing&Commercial",
+          "count": 24
+        },
+        {
+          "value": "3PL",
+          "count": 11
+        },
+        {
+          "value": "Content",
+          "count": 7
+        },
+        {
+          "value": "OOS",
+          "count": 4
+        },
+        {
+          "value": "Customer behavior",
+          "count": 4
+        }
+      ]
+    },
+    "Reasons": {
+      "distinct": 56,
+      "values": [
+        {
+          "value": "(blank)",
+          "count": 9964
+        },
+        {
+          "value": "No Answer – No Response Received",
+          "count": 1647
+        },
+        {
+          "value": "Open Shipping - No Response Received",
+          "count": 1354
+        },
+        {
+          "value": "Size Issue – Returned (No Exchange)",
+          "count": 1058
+        },
+        {
+          "value": "Refused – No Clear Reason",
+          "count": 760
+        },
+        {
+          "value": "Material Quality Below Expectation",
+          "count": 488
+        },
+        {
+          "value": "OOS",
+          "count": 409
+        },
+        {
+          "value": "Customer Changed Mind",
+          "count": 282
+        },
+        {
+          "value": "Size Issue – Exchange Created",
+          "count": 280
+        },
+        {
+          "value": "exchange order",
+          "count": 274
+        },
+        {
+          "value": "Product Not as Described",
+          "count": 169
+        },
+        {
+          "value": "Duplicate",
+          "count": 158
+        },
+        {
+          "value": "Size & Fit Issue",
+          "count": 155
+        },
+        {
+          "value": "Refused – Policy Not Available",
+          "count": 142
+        },
+        {
+          "value": "No Response Received",
+          "count": 132
+        },
+        {
+          "value": "Missing size chart",
+          "count": 127
+        },
+        {
+          "value": "Defected Item – Vendor Fault",
+          "count": 115
+        },
+        {
+          "value": "Product Not as Expected",
+          "count": 106
+        },
+        {
+          "value": "Wrong Item Sent – Vendor Fault",
+          "count": 85
+        },
+        {
+          "value": "Lost",
+          "count": 73
+        },
+        {
+          "value": "Bad history",
+          "count": 62
+        },
+        {
+          "value": "Missing Data",
+          "count": 52
+        },
+        {
+          "value": "Split Order",
+          "count": 50
+        },
+        {
+          "value": "Size Issue – No Alternative (One Size)",
+          "count": 31
+        },
+        {
+          "value": "Production-Delay",
+          "count": 30
+        },
+        {
+          "value": "Size Fitting Large",
+          "count": 29
+        },
+        {
+          "value": "Creating A new Order",
+          "count": 26
+        },
+        {
+          "value": "Ordered By Mistake",
+          "count": 22
+        },
+        {
+          "value": "Changed Mind OOS",
+          "count": 22
+        },
+        {
+          "value": "Wrong Data",
+          "count": 22
+        },
+        {
+          "value": "Wrong Item",
+          "count": 21
+        },
+        {
+          "value": "Test",
+          "count": 18
+        },
+        {
+          "value": "System Issue",
+          "count": 16
+        },
+        {
+          "value": "Fake Delivery – Courier Fault",
+          "count": 14
+        },
+        {
+          "value": "Color Mismatch (Photography)",
+          "count": 14
+        },
+        {
+          "value": "Wrong Size",
+          "count": 13
+        },
+        {
+          "value": "Didn’t Fit",
+          "count": 13
+        },
+        {
+          "value": "Cst doesn't have money",
+          "count": 11
+        },
+        {
+          "value": "The customer misunderstood the description",
+          "count": 10
+        },
+        {
+          "value": "Dosen't match the pic on the website",
+          "count": 10
+        },
+        {
+          "value": "Material is too transparent",
+          "count": 10
+        },
+        {
+          "value": "Production-Bad Quality",
+          "count": 9
+        },
+        {
+          "value": "Wrong Price Update",
+          "count": 9
+        },
+        {
+          "value": "Wrong Number",
+          "count": 8
+        },
+        {
+          "value": "Wrong Color",
+          "count": 8
+        },
+        {
+          "value": "Unavailable to receive.",
+          "count": 7
+        },
+        {
+          "value": "Wrong Item Content",
+          "count": 7
+        },
+        {
+          "value": "I've found alternative from another website",
+          "count": 5
+        },
+        {
+          "value": "Exceeding SLA",
+          "count": 4
+        },
+        {
+          "value": "Out Of Zone",
+          "count": 2
+        },
+        {
+          "value": "Vendor Issue",
+          "count": 2
+        },
+        {
+          "value": "Commercial Mistake",
+          "count": 2
+        },
+        {
+          "value": "Late Delivery",
+          "count": 1
+        },
+        {
+          "value": "Didn’t Fit – Too Large",
+          "count": 1
+        },
+        {
+          "value": "Vendor delay",
+          "count": 1
+        },
+        {
+          "value": "Not as Described – Missing/Incorrect Specification",
+          "count": 1
+        }
+      ]
+    },
+    "Vendor Penalty": {
+      "distinct": 2,
+      "values": [
+        {
+          "value": "(blank)",
+          "count": 18022
+        },
+        {
+          "value": "Apply Penalty",
+          "count": 319
+        }
+      ]
+    },
+    "Recall Status": {
+      "distinct": 5,
+      "values": [
+        {
+          "value": "(blank)",
+          "count": 15171
+        },
+        {
+          "value": "Send messages",
+          "count": 1430
+        },
+        {
+          "value": "No Response",
+          "count": 1328
+        },
+        {
+          "value": "✅ Create new orders",
+          "count": 273
+        },
+        {
+          "value": "❌ Refused Again",
+          "count": 139
+        }
+      ]
+    },
+    "Bosta FlexShip": {
+      "distinct": 3,
+      "values": [
+        {
+          "value": "(blank)",
+          "count": 15019
+        },
+        {
+          "value": "Apply FlexShip",
+          "count": 3181
+        },
+        {
+          "value": "Reject FlexShip",
+          "count": 141
+        }
+      ]
+    },
+    "QC Checkbox": {
+      "distinct": 3,
+      "values": [
+        {
+          "value": "False",
+          "count": 16926
+        },
+        {
+          "value": "True",
+          "count": 1413
+        },
+        {
+          "value": "(blank)",
+          "count": 2
+        }
+      ]
+    }
+  },
+  "Copy of Vendor Penalty": {
+    "Vendor": {
+      "distinct": 15,
+      "values": [
+        {
+          "value": "Xo style",
+          "count": 13
+        },
+        {
+          "value": "Xo Style",
+          "count": 12
+        },
+        {
+          "value": "Leocansa",
+          "count": 9
+        },
+        {
+          "value": "Aida",
+          "count": 3
+        },
+        {
+          "value": "Miss Venus",
+          "count": 2
+        },
+        {
+          "value": "The PG Designs",
+          "count": 2
+        },
+        {
+          "value": "Libra",
+          "count": 2
+        },
+        {
+          "value": "Carinawear",
+          "count": 1
+        },
+        {
+          "value": "LUKINS",
+          "count": 1
+        },
+        {
+          "value": "Champs Land",
+          "count": 1
+        },
+        {
+          "value": "Mr.joe",
+          "count": 1
+        },
+        {
+          "value": "Soly's",
+          "count": 1
+        },
+        {
+          "value": "Hesper",
+          "count": 1
+        },
+        {
+          "value": "HANS",
+          "count": 1
+        },
+        {
+          "value": "iLady",
+          "count": 1
+        }
+      ]
+    },
+    "Reasons": {
+      "distinct": 13,
+      "values": [
+        {
+          "value": "Defected item",
+          "count": 19
+        },
+        {
+          "value": "wrong item",
+          "count": 10
+        },
+        {
+          "value": "wrong size",
+          "count": 9
+        },
+        {
+          "value": "Wrong Item",
+          "count": 3
+        },
+        {
+          "value": "Wrong Size",
+          "count": 2
+        },
+        {
+          "value": "الفردتين يمين",
+          "count": 1
+        },
+        {
+          "value": "الايتم وصل لى العميلة لون غلط",
+          "count": 1
+        },
+        {
+          "value": "الفندر مطلع الايتم بلون مختلف",
+          "count": 1
+        },
+        {
+          "value": "الفيندور طلع القطعه غلط",
+          "count": 1
+        },
+        {
+          "value": "الفيندور طلع البنطلون غلط",
+          "count": 1
+        },
+        {
+          "value": "الفيندور طلع الاوردر بعد الغاء",
+          "count": 1
+        },
+        {
+          "value": "السوستة مكسورة",
+          "count": 1
+        },
+        {
+          "value": "المنتج فيه بقع",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "Copy of Bosta Compensation ": {
+    "Comment": {
+      "distinct": 4,
+      "values": [
+        {
+          "value": "lost order وهيتم التعويض",
+          "count": 58
+        },
+        {
+          "value": "شحنة مجانية",
+          "count": 7
+        },
+        {
+          "value": "free shipment",
+          "count": 4
+        },
+        {
+          "value": "(blank)",
+          "count": 1
+        }
+      ]
+    },
+    "Arrival": {
+      "distinct": 1,
+      "values": [
+        {
+          "value": "(blank)",
+          "count": 70
+        }
+      ]
+    }
+  },
+  "Copy of Staff Orders": {
+    "Staff Name": {
+      "distinct": 3,
+      "values": [
+        {
+          "value": "Galal",
+          "count": 2
+        },
+        {
+          "value": "Hagar",
+          "count": 1
+        },
+        {
+          "value": "Dalia",
+          "count": 1
+        }
+      ]
+    },
+    "Status": {
+      "distinct": 2,
+      "values": [
+        {
+          "value": "Done",
+          "count": 2
+        },
+        {
+          "value": "(blank)",
+          "count": 2
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "vendor_penalty": {
+    "rows": 51,
+    "total_value_egp": 66632.8,
+    "by_vendor": [
+      {
+        "vendor": "Xo style",
+        "count": 13
+      },
+      {
+        "vendor": "Xo Style",
+        "count": 12
+      },
+      {
+        "vendor": "Leocansa",
+        "count": 9
+      },
+      {
+        "vendor": "Aida",
+        "count": 3
+      },
+      {
+        "vendor": "Miss Venus",
+        "count": 2
+      },
+      {
+        "vendor": "The PG Designs",
+        "count": 2
+      },
+      {
+        "vendor": "Libra",
+        "count": 2
+      },
+      {
+        "vendor": "Carinawear",
+        "count": 1
+      },
+      {
+        "vendor": "LUKINS",
+        "count": 1
+      },
+      {
+        "vendor": "Champs Land",
+        "count": 1
+      },
+      {
+        "vendor": "Mr.joe",
+        "count": 1
+      },
+      {
+        "vendor": "Soly's",
+        "count": 1
+      },
+      {
+        "vendor": "Hesper",
+        "count": 1
+      },
+      {
+        "vendor": "HANS",
+        "count": 1
+      },
+      {
+        "vendor": "iLady",
+        "count": 1
+      }
+    ]
+  },
+  "bosta_compensation": {
+    "rows": 70,
+    "total_egp": 82999.85
+  },
+  "return_bosta": {
+    "rows": 22,
+    "total_egp": 26306.0
+  },
+  "staff_orders": {
+    "rows": 4,
+    "total_egp": 4721.92
+  },
+  "oos_orders": {
+    "rows": 478,
+    "by_reason": [
+      {
+        "reason": "OOS",
+        "count": 376
+      },
+      {
+        "reason": "Runes delay",
+        "count": 30
+      },
+      {
+        "reason": "Hesper delay",
+        "count": 27
+      },
+      {
+        "reason": "Katee delay",
+        "count": 13
+      },
+      {
+        "reason": "XO delay",
+        "count": 11
+      },
+      {
+        "reason": "iLady delay",
+        "count": 6
+      },
+      {
+        "reason": "Leocansa delay",
+        "count": 5
+      },
+      {
+        "reason": "Libra delay",
+        "count": 2
+      },
+      {
+        "reason": "Shoeroom delay",
+        "count": 2
+      },
+      {
+        "reason": "Carina delay",
+        "count": 2
+      },
+      {
+        "reason": "Mr.Joe delay",
+        "count": 1
+      },
+      {
+        "reason": "Glitter delay",
+        "count": 1
+      },
+      {
+        "reason": "Clue delay",
+        "count": 1
+      },
+      {
+        "reason": "Navy delay",
+        "count": 1
+      }
+    ]
+  }
+}

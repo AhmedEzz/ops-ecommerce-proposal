@@ -1,0 +1,36 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start(["Exchange requested<br/><i>top driver: Size Issue</i>"]) --> elig{"Eligible?<br/><i>+ does the vendor allow exchange?</i>"}
+
+    elig -->|no| toreturn["Offer a return instead<br/>-> return workflow"]
+
+    elig -->|yes| pick["Customer / CS selects<br/>the replacement variant"]
+    pick --> stock{"<b>Replacement in stock?</b><br/><i>live check at request time</i>"}
+
+    stock -->|"out of stock"| alt{"Alternative<br/>accepted?"}
+    alt -->|"customer declines"| toreturn
+    alt -->|"takes another variant"| reserve
+    stock -->|"in stock"| reserve["<b>Reserve</b> the replacement<br/><i>soft hold against this exchange</i>"]
+
+    reserve --> confirm["<b>Confirm Exchange (CS)</b>"]
+
+    confirm --> price["Settle the price delta<br/><i>costs more -> collect via Paymob link</i><br/><i>costs less -> refund the delta only</i><br/><i>same price -> no financial delta</i>"]
+
+    price --> legs["<b>Two shipping legs, in parallel</b><br/><i>reverse: Ready-To-Pick -> Under Return (3PL)</i><br/><i>forward: replacement order in Shopify + AWB</i>"]
+
+    legs --> combine{"Collect-and-deliver<br/>supported in this zone?"}
+
+    combine -->|"yes - one courier visit, swap at the door"| next
+    combine -->|"no - two separate visits"| next
+
+    next(["Original arrives at warehouse<br/><i>continue to QC and financial treatment</i>"])
+
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef hot fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px
+
+    class reserve,next good
+    class toreturn bad
+    class alt,combine warn
+    class stock,price,legs hot

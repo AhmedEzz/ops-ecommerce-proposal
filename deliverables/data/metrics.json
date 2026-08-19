@@ -1,0 +1,936 @@
+{
+  "period": {
+    "from": "2026-01-01",
+    "to": "2026-08-08"
+  },
+  "totals": {
+    "item_rows": 18341,
+    "unique_customer_orders": 12219,
+    "vendors": 82,
+    "gmv_egp": 16452696.89,
+    "shipping_fees_egp": 1153350.0,
+    "avg_item_value_egp": 897.04,
+    "delivered_items": 9036,
+    "delivery_rate": 0.4927,
+    "return_or_rto_items": 6705,
+    "return_rate": 0.3656,
+    "explicit_return_requests": 773,
+    "exchange_items": 1612,
+    "flex_shipping_applied": 3181,
+    "penalised_items": 319
+  },
+  "monthly": [
+    {
+      "month": "2026-01",
+      "items": 1692,
+      "gmv_egp": 2175866.78,
+      "delivered": 840,
+      "delivery_rate": 0.4965,
+      "rto": 225,
+      "failed_delivery": 384,
+      "cancelled": 173
+    },
+    {
+      "month": "2026-02",
+      "items": 1651,
+      "gmv_egp": 1870827.33,
+      "delivered": 879,
+      "delivery_rate": 0.5324,
+      "rto": 220,
+      "failed_delivery": 319,
+      "cancelled": 165
+    },
+    {
+      "month": "2026-03",
+      "items": 2117,
+      "gmv_egp": 1844340.8,
+      "delivered": 1168,
+      "delivery_rate": 0.5517,
+      "rto": 238,
+      "failed_delivery": 419,
+      "cancelled": 221
+    },
+    {
+      "month": "2026-04",
+      "items": 2526,
+      "gmv_egp": 2243499.97,
+      "delivered": 1291,
+      "delivery_rate": 0.5111,
+      "rto": 338,
+      "failed_delivery": 509,
+      "cancelled": 294
+    },
+    {
+      "month": "2026-05",
+      "items": 3074,
+      "gmv_egp": 2634422.91,
+      "delivered": 1649,
+      "delivery_rate": 0.5364,
+      "rto": 407,
+      "failed_delivery": 712,
+      "cancelled": 177
+    },
+    {
+      "month": "2026-06",
+      "items": 3223,
+      "gmv_egp": 2634200.81,
+      "delivered": 1724,
+      "delivery_rate": 0.5349,
+      "rto": 498,
+      "failed_delivery": 752,
+      "cancelled": 147
+    },
+    {
+      "month": "2026-07",
+      "items": 2581,
+      "gmv_egp": 2522310.84,
+      "delivered": 1336,
+      "delivery_rate": 0.5176,
+      "rto": 408,
+      "failed_delivery": 599,
+      "cancelled": 120
+    },
+    {
+      "month": "2026-08",
+      "items": 507,
+      "gmv_egp": 527227.45,
+      "delivered": 149,
+      "delivery_rate": 0.2939,
+      "rto": 25,
+      "failed_delivery": 49,
+      "cancelled": 10
+    }
+  ],
+  "top_vendors": [
+    {
+      "vendor": "MALABISY",
+      "items": 2942,
+      "gmv_egp": 2734738.6,
+      "delivered": 1465,
+      "delivery_rate": 0.498,
+      "rto": 479,
+      "returned": 159
+    },
+    {
+      "vendor": "Xo style",
+      "items": 2897,
+      "gmv_egp": 3482894.74,
+      "delivered": 1312,
+      "delivery_rate": 0.4529,
+      "rto": 376,
+      "returned": 143
+    },
+    {
+      "vendor": "Onda",
+      "items": 1431,
+      "gmv_egp": 383909.0,
+      "delivered": 1017,
+      "delivery_rate": 0.7107,
+      "rto": 157,
+      "returned": 11
+    },
+    {
+      "vendor": "Hoolt",
+      "items": 1392,
+      "gmv_egp": 674065.0,
+      "delivered": 884,
+      "delivery_rate": 0.6351,
+      "rto": 166,
+      "returned": 19
+    },
+    {
+      "vendor": "Leocansa",
+      "items": 1318,
+      "gmv_egp": 1817980.0,
+      "delivered": 675,
+      "delivery_rate": 0.5121,
+      "rto": 188,
+      "returned": 46
+    },
+    {
+      "vendor": "Carinawear",
+      "items": 998,
+      "gmv_egp": 599308.5,
+      "delivered": 546,
+      "delivery_rate": 0.5471,
+      "rto": 124,
+      "returned": 19
+    },
+    {
+      "vendor": "Clue",
+      "items": 639,
+      "gmv_egp": 664118.21,
+      "delivered": 289,
+      "delivery_rate": 0.4523,
+      "rto": 89,
+      "returned": 28
+    },
+    {
+      "vendor": "Mr.joe",
+      "items": 564,
+      "gmv_egp": 881487.0,
+      "delivered": 295,
+      "delivery_rate": 0.523,
+      "rto": 75,
+      "returned": 10
+    },
+    {
+      "vendor": "Shoeroom",
+      "items": 514,
+      "gmv_egp": 730233.0,
+      "delivered": 299,
+      "delivery_rate": 0.5817,
+      "rto": 77,
+      "returned": 15
+    },
+    {
+      "vendor": "Libra",
+      "items": 509,
+      "gmv_egp": 769615.0,
+      "delivered": 260,
+      "delivery_rate": 0.5108,
+      "rto": 64,
+      "returned": 18
+    },
+    {
+      "vendor": "Aida",
+      "items": 439,
+      "gmv_egp": 522332.0,
+      "delivered": 218,
+      "delivery_rate": 0.4966,
+      "rto": 58,
+      "returned": 16
+    },
+    {
+      "vendor": "Menaksha",
+      "items": 431,
+      "gmv_egp": 184630.0,
+      "delivered": 240,
+      "delivery_rate": 0.5568,
+      "rto": 61,
+      "returned": 14
+    },
+    {
+      "vendor": "Runes",
+      "items": 348,
+      "gmv_egp": 471595.99,
+      "delivered": 129,
+      "delivery_rate": 0.3707,
+      "rto": 42,
+      "returned": 7
+    },
+    {
+      "vendor": "B.S COLLECTION",
+      "items": 255,
+      "gmv_egp": 141406.0,
+      "delivered": 167,
+      "delivery_rate": 0.6549,
+      "rto": 29,
+      "returned": 4
+    },
+    {
+      "vendor": "Glitter",
+      "items": 248,
+      "gmv_egp": 132237.0,
+      "delivered": 131,
+      "delivery_rate": 0.5282,
+      "rto": 28,
+      "returned": 8
+    },
+    {
+      "vendor": "Viola",
+      "items": 201,
+      "gmv_egp": 184220.0,
+      "delivered": 97,
+      "delivery_rate": 0.4826,
+      "rto": 48,
+      "returned": 8
+    },
+    {
+      "vendor": "Tujoo",
+      "items": 194,
+      "gmv_egp": 34510.0,
+      "delivered": 162,
+      "delivery_rate": 0.8351,
+      "rto": 8,
+      "returned": 0
+    },
+    {
+      "vendor": "Amaze",
+      "items": 191,
+      "gmv_egp": 151450.0,
+      "delivered": 97,
+      "delivery_rate": 0.5079,
+      "rto": 31,
+      "returned": 4
+    },
+    {
+      "vendor": "Hesper",
+      "items": 170,
+      "gmv_egp": 305871.0,
+      "delivered": 57,
+      "delivery_rate": 0.3353,
+      "rto": 19,
+      "returned": 30
+    },
+    {
+      "vendor": "hesper",
+      "items": 163,
+      "gmv_egp": 193611.0,
+      "delivered": 77,
+      "delivery_rate": 0.4724,
+      "rto": 23,
+      "returned": 11
+    },
+    {
+      "vendor": "SUWA",
+      "items": 153,
+      "gmv_egp": 154699.0,
+      "delivered": 61,
+      "delivery_rate": 0.3987,
+      "rto": 17,
+      "returned": 5
+    },
+    {
+      "vendor": "kateebykristina",
+      "items": 135,
+      "gmv_egp": 293249.0,
+      "delivered": 39,
+      "delivery_rate": 0.2889,
+      "rto": 43,
+      "returned": 7
+    },
+    {
+      "vendor": "Fluffy accessories",
+      "items": 98,
+      "gmv_egp": 27054.0,
+      "delivered": 57,
+      "delivery_rate": 0.5816,
+      "rto": 21,
+      "returned": 1
+    },
+    {
+      "vendor": "iLADY",
+      "items": 92,
+      "gmv_egp": 43119.0,
+      "delivered": 42,
+      "delivery_rate": 0.4565,
+      "rto": 14,
+      "returned": 3
+    }
+  ],
+  "sla": {
+    "CS SLA": {
+      "n": 17202,
+      "min": 0.0,
+      "max": 15.0,
+      "avg": 0.94,
+      "p50": 0.0,
+      "p90": 2.0,
+      "p95": 2.0,
+      "p99": 4.0
+    },
+    "FM SLA": {
+      "n": 16066,
+      "min": 0.0,
+      "max": 15.0,
+      "avg": 0.85,
+      "p50": 1.0,
+      "p90": 2.0,
+      "p95": 3.0,
+      "p99": 6.0
+    },
+    "Delivere SLA": {
+      "n": 17142,
+      "min": 0.0,
+      "max": 14.0,
+      "avg": 1.14,
+      "p50": 1.0,
+      "p90": 2.0,
+      "p95": 3.0,
+      "p99": 5.0
+    },
+    "Return SLA": {
+      "n": 11166,
+      "min": 0.0,
+      "max": 25.0,
+      "avg": 0.24,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 2.0,
+      "p99": 6.0
+    }
+  },
+  "governorates": [
+    {
+      "governorate": "القاهره",
+      "items": 7585
+    },
+    {
+      "governorate": "الجيزة",
+      "items": 2821
+    },
+    {
+      "governorate": "اسكندرية",
+      "items": 993
+    },
+    {
+      "governorate": "الشرقية",
+      "items": 178
+    },
+    {
+      "governorate": "الدقهليه",
+      "items": 173
+    },
+    {
+      "governorate": "الغربيه",
+      "items": 156
+    },
+    {
+      "governorate": "الغردقه",
+      "items": 81
+    },
+    {
+      "governorate": "القليوبيه",
+      "items": 81
+    },
+    {
+      "governorate": "المنوفية",
+      "items": 75
+    },
+    {
+      "governorate": "دمياط",
+      "items": 68
+    },
+    {
+      "governorate": "بورسعيد",
+      "items": 57
+    },
+    {
+      "governorate": "كفر الشيخ",
+      "items": 56
+    },
+    {
+      "governorate": "الاسماعيليه",
+      "items": 53
+    },
+    {
+      "governorate": "السويس",
+      "items": 47
+    },
+    {
+      "governorate": "أسيوط",
+      "items": 46
+    },
+    {
+      "governorate": "البحيره",
+      "items": 44
+    },
+    {
+      "governorate": "شرم الشيخ",
+      "items": 38
+    },
+    {
+      "governorate": "بني سويف",
+      "items": 34
+    },
+    {
+      "governorate": "الفيوم",
+      "items": 34
+    },
+    {
+      "governorate": "أسوان",
+      "items": 34
+    },
+    {
+      "governorate": "المنيا",
+      "items": 33
+    },
+    {
+      "governorate": "سوهاج",
+      "items": 26
+    },
+    {
+      "governorate": "الساحل الشمالي",
+      "items": 26
+    },
+    {
+      "governorate": "مرسى مطروح",
+      "items": 25
+    },
+    {
+      "governorate": "حلوان",
+      "items": 20
+    },
+    {
+      "governorate": "سيناء",
+      "items": 19
+    },
+    {
+      "governorate": "الأقصر",
+      "items": 16
+    },
+    {
+      "governorate": "المنصورة",
+      "items": 11
+    },
+    {
+      "governorate": "قنا",
+      "items": 8
+    },
+    {
+      "governorate": "اسيوط",
+      "items": 6
+    },
+    {
+      "governorate": "الزقازيق",
+      "items": 1
+    },
+    {
+      "governorate": "الاقصر",
+      "items": 1
+    }
+  ],
+  "reason_taxonomy_by_stakeholder": {
+    "Commercial": [
+      {
+        "reason": "Size Issue – Returned (No Exchange)",
+        "count": 1057
+      },
+      {
+        "reason": "Material Quality Below Expectation",
+        "count": 481
+      },
+      {
+        "reason": "OOS",
+        "count": 279
+      },
+      {
+        "reason": "Size Issue – Exchange Created",
+        "count": 277
+      },
+      {
+        "reason": "Size & Fit Issue",
+        "count": 154
+      },
+      {
+        "reason": "Missing size chart",
+        "count": 126
+      },
+      {
+        "reason": "Defected Item – Vendor Fault",
+        "count": 108
+      },
+      {
+        "reason": "Product Not as Expected",
+        "count": 106
+      },
+      {
+        "reason": "Wrong Item Sent – Vendor Fault",
+        "count": 84
+      },
+      {
+        "reason": "Size Issue – No Alternative (One Size)",
+        "count": 31
+      },
+      {
+        "reason": "Production-Delay",
+        "count": 29
+      },
+      {
+        "reason": "Size Fitting Large",
+        "count": 29
+      },
+      {
+        "reason": "Wrong Item",
+        "count": 17
+      },
+      {
+        "reason": "Color Mismatch (Photography)",
+        "count": 14
+      },
+      {
+        "reason": "Didn’t Fit",
+        "count": 13
+      },
+      {
+        "reason": "Material is too transparent",
+        "count": 10
+      },
+      {
+        "reason": "Production-Bad Quality",
+        "count": 9
+      },
+      {
+        "reason": "Wrong Price Update",
+        "count": 9
+      },
+      {
+        "reason": "Product Not as Described",
+        "count": 8
+      },
+      {
+        "reason": "Wrong Size",
+        "count": 8
+      },
+      {
+        "reason": "Dosen't match the pic on the website",
+        "count": 7
+      },
+      {
+        "reason": "Wrong Color",
+        "count": 6
+      },
+      {
+        "reason": "Customer Changed Mind",
+        "count": 3
+      },
+      {
+        "reason": "Exceeding SLA",
+        "count": 3
+      },
+      {
+        "reason": "No Response Received",
+        "count": 2
+      },
+      {
+        "reason": "Changed Mind OOS",
+        "count": 2
+      },
+      {
+        "reason": "Vendor Issue",
+        "count": 2
+      },
+      {
+        "reason": "Commercial Mistake",
+        "count": 2
+      },
+      {
+        "reason": "Late Delivery",
+        "count": 1
+      },
+      {
+        "reason": "Didn’t Fit – Too Large",
+        "count": 1
+      },
+      {
+        "reason": "Vendor delay",
+        "count": 1
+      },
+      {
+        "reason": "Not as Described – Missing/Incorrect Specification",
+        "count": 1
+      },
+      {
+        "reason": "exchange order",
+        "count": 1
+      }
+    ],
+    "Marketing": [
+      {
+        "reason": "No Answer – No Response Received",
+        "count": 874
+      },
+      {
+        "reason": "Open Shipping - No Response Received",
+        "count": 853
+      },
+      {
+        "reason": "Refused – No Clear Reason",
+        "count": 448
+      },
+      {
+        "reason": "Customer Changed Mind",
+        "count": 139
+      },
+      {
+        "reason": "Duplicate",
+        "count": 59
+      },
+      {
+        "reason": "Refused – Policy Not Available",
+        "count": 54
+      },
+      {
+        "reason": "Missing Data",
+        "count": 52
+      },
+      {
+        "reason": "Split Order",
+        "count": 50
+      },
+      {
+        "reason": "Wrong Data",
+        "count": 21
+      },
+      {
+        "reason": "No Response Received",
+        "count": 18
+      },
+      {
+        "reason": "Bad history",
+        "count": 11
+      },
+      {
+        "reason": "Ordered By Mistake",
+        "count": 4
+      },
+      {
+        "reason": "Wrong Number",
+        "count": 4
+      },
+      {
+        "reason": "Cst doesn't have money",
+        "count": 2
+      },
+      {
+        "reason": "Test",
+        "count": 1
+      },
+      {
+        "reason": "I've found alternative from another website",
+        "count": 1
+      },
+      {
+        "reason": "Wrong Size",
+        "count": 1
+      },
+      {
+        "reason": "Material Quality Below Expectation",
+        "count": 1
+      },
+      {
+        "reason": "Size & Fit Issue",
+        "count": 1
+      },
+      {
+        "reason": "The customer misunderstood the description",
+        "count": 1
+      },
+      {
+        "reason": "Missing size chart",
+        "count": 1
+      },
+      {
+        "reason": "Defected Item – Vendor Fault",
+        "count": 1
+      },
+      {
+        "reason": "Unavailable to receive.",
+        "count": 1
+      },
+      {
+        "reason": "Creating A new Order",
+        "count": 1
+      }
+    ],
+    "Customer Behavior": [
+      {
+        "reason": "No Answer – No Response Received",
+        "count": 773
+      },
+      {
+        "reason": "Refused – No Clear Reason",
+        "count": 312
+      },
+      {
+        "reason": "Product Not as Described",
+        "count": 161
+      },
+      {
+        "reason": "Customer Changed Mind",
+        "count": 139
+      },
+      {
+        "reason": "No Response Received",
+        "count": 112
+      },
+      {
+        "reason": "Duplicate",
+        "count": 96
+      },
+      {
+        "reason": "Refused – Policy Not Available",
+        "count": 88
+      },
+      {
+        "reason": "Bad history",
+        "count": 51
+      },
+      {
+        "reason": "Creating A new Order",
+        "count": 25
+      },
+      {
+        "reason": "Ordered By Mistake",
+        "count": 16
+      },
+      {
+        "reason": "Changed Mind OOS",
+        "count": 15
+      },
+      {
+        "reason": "Cst doesn't have money",
+        "count": 9
+      },
+      {
+        "reason": "The customer misunderstood the description",
+        "count": 9
+      },
+      {
+        "reason": "Unavailable to receive.",
+        "count": 6
+      },
+      {
+        "reason": "Wrong Number",
+        "count": 4
+      },
+      {
+        "reason": "I've found alternative from another website",
+        "count": 4
+      },
+      {
+        "reason": "Size Issue – Exchange Created",
+        "count": 3
+      },
+      {
+        "reason": "Dosen't match the pic on the website",
+        "count": 3
+      },
+      {
+        "reason": "Exceeding SLA",
+        "count": 1
+      },
+      {
+        "reason": "Size Issue – Returned (No Exchange)",
+        "count": 1
+      },
+      {
+        "reason": "Fake Delivery – Courier Fault",
+        "count": 1
+      },
+      {
+        "reason": "Wrong Data",
+        "count": 1
+      },
+      {
+        "reason": "Production-Delay",
+        "count": 1
+      }
+    ],
+    "No Answer": [
+      {
+        "reason": "Open Shipping - No Response Received",
+        "count": 501
+      }
+    ],
+    "Ops": [
+      {
+        "reason": "OOS",
+        "count": 130
+      },
+      {
+        "reason": "exchange order",
+        "count": 97
+      },
+      {
+        "reason": "Lost",
+        "count": 73
+      },
+      {
+        "reason": "Fake Delivery – Courier Fault",
+        "count": 4
+      },
+      {
+        "reason": "Changed Mind OOS",
+        "count": 4
+      }
+    ],
+    "CS": [
+      {
+        "reason": "exchange order",
+        "count": 176
+      },
+      {
+        "reason": "Ordered By Mistake",
+        "count": 2
+      },
+      {
+        "reason": "System Issue",
+        "count": 1
+      }
+    ],
+    "Tech": [
+      {
+        "reason": "Test",
+        "count": 17
+      },
+      {
+        "reason": "System Issue",
+        "count": 11
+      }
+    ],
+    "Marketing&Commercial": [
+      {
+        "reason": "Defected Item – Vendor Fault",
+        "count": 6
+      },
+      {
+        "reason": "Material Quality Below Expectation",
+        "count": 6
+      },
+      {
+        "reason": "Wrong Size",
+        "count": 4
+      },
+      {
+        "reason": "Wrong Item",
+        "count": 4
+      },
+      {
+        "reason": "Wrong Color",
+        "count": 2
+      },
+      {
+        "reason": "Wrong Item Sent – Vendor Fault",
+        "count": 1
+      },
+      {
+        "reason": "Changed Mind OOS",
+        "count": 1
+      }
+    ],
+    "3PL": [
+      {
+        "reason": "Fake Delivery – Courier Fault",
+        "count": 9
+      },
+      {
+        "reason": "Out Of Zone",
+        "count": 2
+      }
+    ],
+    "Content": [
+      {
+        "reason": "Wrong Item Content",
+        "count": 7
+      }
+    ],
+    "OOS": [
+      {
+        "reason": "System Issue",
+        "count": 4
+      }
+    ],
+    "Customer behavior": [
+      {
+        "reason": "Duplicate",
+        "count": 3
+      },
+      {
+        "reason": "Customer Changed Mind",
+        "count": 1
+      }
+    ]
+  }
+}

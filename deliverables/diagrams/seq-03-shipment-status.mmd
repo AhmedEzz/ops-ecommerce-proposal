@@ -1,0 +1,54 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+sequenceDiagram
+    autonumber
+    participant BO as Bosta
+    participant WR as Webhook Receiver
+    participant IB as Inbox
+    participant SH as Shipment Handler
+    participant SM as Item State Machine
+    participant FE as Financial Engine
+    participant LD as Vendor Ledger
+    participant SP as Shopify
+    participant DSH as Dashboards
+
+    Note over BO,DSH: Requirement 3.3, 3.4, 12.3 - live status without manual refresh
+
+    BO->>WR: POST shipment status<br/>(Picked Up / In Transit / Out For Delivery / Delivered / Returned / Failed)
+    WR->>WR: verify signature
+    WR->>IB: persist (dedupe on external event id)
+    WR-->>BO: 200 OK
+
+    IB->>SH: dispatch
+    SH->>SH: map courier status -> internal status
+    SH->>SM: transition(order_item, newStatus)
+
+    alt transition is legal
+        SM->>SM: write ITEM_STATUS_HISTORY
+    else illegal transition (out-of-order webhook)
+        SM->>SM: reject, log anomaly, keep current state
+        Note right of SM: Couriers deliver events out of order.<br/>The state machine is the guard -<br/>never trust arrival order.
+    end
+
+    alt status = Delivered
+        SH->>FE: recognise revenue for the item
+        FE->>LD: post SALE (credit vendor)<br/>post COMMISSION (debit vendor)
+        Note right of LD: Vendor becomes payable only<br/>on delivery, not on dispatch.
+    else status = Failed Delivery
+        SH->>DSH: add to FD recovery queue
+        Note right of DSH: 3,743 FD items in 7 months -<br/>this queue is where the<br/>recovered revenue comes from.
+    else status = Returned / RTO
+        SH->>FE: trigger return valuation
+        FE->>LD: post RETURN_REVERSAL<br/>(reverses the SALE entry)
+        Note right of LD: Requirement 8.7 - a paid-out item<br/>that later returns is deducted<br/>from the next settlement.
+    end
+
+    opt Bosta flex shipping compensation
+        BO->>WR: flex ship / compensation event
+        WR->>SH: dispatch
+        SH->>FE: record compensation against the item
+        FE->>FE: reduce effective shipping cost
+        Note right of FE: Requirement 3.4 - 3,181 items<br/>carried Apply FlexShip.<br/>Currently reconciled by hand.
+    end
+
+    SH->>SP: sync final status back to Shopify
+    SH->>DSH: refresh read models (live)

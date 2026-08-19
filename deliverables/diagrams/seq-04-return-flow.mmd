@@ -1,0 +1,76 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+sequenceDiagram
+    autonumber
+    actor CU as Customer
+    actor CS as CS Agent
+    participant UI as Returns Console<br/>(in-house)
+    participant EL as Eligibility Engine
+    participant RS as Returns Service
+    participant BA as Bosta Adapter
+    participant WH as Warehouse QC
+    participant FE as Financial Engine
+    participant LD as Vendor Ledger
+    participant SP as Shopify
+
+    Note over CU,SP: Requirement 5 - IN-HOUSE, replacing E-stebdal.<br/>Scenario 3: Return Request -> Confirm Return (CS) -> Ready-To-Pick -> Under Return (3PL) -> Returned (WH)
+
+    alt Phase 1 - CS-operated (how they work today)
+        CU->>CS: calls / WhatsApps requesting return
+        CS->>UI: create return request on customer's behalf
+    else Phase 1b - customer self-service
+        CU->>UI: order number + phone lookup (no account)
+    end
+
+    UI->>EL: check eligibility(order_item)
+    EL->>EL: return window elapsed?
+    EL->>EL: vendor policy allows this category?
+    EL->>EL: item already returned / exchanged?
+
+    alt ineligible
+        EL-->>UI: reject with specific reason
+        UI-->>CU: explain why + policy text
+        Note right of UI: Rejections are logged.<br/>"Refused - Policy Not Available"<br/>appears 119x in the sheet -<br/>this is where that goes away.
+    end
+
+    EL-->>UI: eligible
+    CS->>UI: select reason from 56-value taxonomy
+    Note right of UI: Reasons carry stakeholder attribution<br/>(Commercial / Marketing / Customer<br/>Behavior / Ops / CS / 3PL) - ported<br/>verbatim from the sheet.
+
+    UI->>RS: createReturnRequest(type = return)
+    RS->>RS: INSERT RETURN_REQUESTS + RETURN_ITEMS
+    RS->>RS: order_item status -> Return Requested
+
+    CS->>UI: Confirm Return
+    RS->>RS: status -> Ready-To-Pick
+    RS->>BA: create REVERSE pickup AWB
+    Note right of BA: Same shipment adapter as forward<br/>shipping - one integration, both<br/>directions.
+    BA-->>RS: reverse tracking number
+    RS->>RS: status -> Under Return
+
+    BA->>RS: webhook - picked up / in transit
+    BA->>RS: webhook - delivered to warehouse
+
+    RS->>WH: raise QC receipt task
+    WH->>UI: inspect item
+
+    alt QC accepted
+        WH->>RS: qc_outcome = accepted
+        RS->>RS: status -> Returned (WH)
+        RS->>FE: value the return
+        FE->>LD: post RETURN_REVERSAL (reverses SALE)
+        Note right of LD: The ORIGINAL financial snapshot is<br/>never mutated. The reversal is a new,<br/>separately dated ledger entry -<br/>so Req 6.3 and 8.7 stay consistent.
+        FE->>FE: create REFUND (status = pending)
+        Note right of FE: COD refunds in Egypt are manual.<br/>A refund is a LEDGER OBLIGATION<br/>with a settlement step, not an<br/>automatic payment.
+        RS->>SP: write return + refund into Shopify
+    else QC rejected (damaged / not as described)
+        WH->>RS: qc_outcome = rejected
+        RS->>LD: no reversal - vendor keeps payment
+        RS->>UI: escalate to CS for customer dispute
+    end
+
+    opt reason is vendor-attributable
+        RS->>LD: post PENALTY entry against vendor
+        Note right of LD: e.g. "Defected Item - Vendor Fault"<br/>(115 occurrences). Currently tracked<br/>on a separate sheet by hand.
+    end
+
+    RS->>UI: return closed, visible in vendor scorecard

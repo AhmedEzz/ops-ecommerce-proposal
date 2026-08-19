@@ -1,0 +1,53 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+sequenceDiagram
+    autonumber
+    participant SC as Scheduler
+    participant RC as Reconciliation Service
+    participant SP as Shopify
+    participant PM as Paymob
+    participant BO as Bosta (COD)
+    participant DB as PostgreSQL
+    actor FIN as Finance
+
+    Note over SC,FIN: Requirement 4.1, 12.3 - three sources of payment truth must agree.<br/>90% of orders are Cash on Delivery, so Bosta - not the PSP - holds most of the money.
+
+    SC->>RC: nightly reconciliation run
+
+    par pull each source
+        RC->>SP: orders + financial status
+        SP-->>RC: order totals, payment method, gift cards
+    and
+        RC->>PM: settled transactions for the period
+        PM-->>RC: transaction id, amount, status, fees
+    and
+        RC->>BO: COD collection report
+        BO-->>RC: collected amounts, remittance batches
+    end
+
+    RC->>RC: match on order reference + amount
+
+    Note right of RC: Payment Method in the sheet has 13<br/>distinct spellings including<br/>"cash on Delivery (COD)" and<br/>"CAsh on Delivery (COD)".<br/>Normalisation happens here, once.
+
+    alt fully matched
+        RC->>DB: mark payment reconciled
+    else amount mismatch
+        RC->>DB: flag EXCEPTION (short / over collection)
+        RC->>FIN: exception queue
+        Note right of FIN: Partial COD collection is common.<br/>The exception queue is the control -<br/>not a spreadsheet comparison.
+    else COD collected but order not Delivered
+        RC->>DB: flag status conflict
+        Note right of DB: Usually a late Bosta webhook.<br/>Auto-resolves on next run,<br/>escalates if it persists 48h.
+    else Delivered but no collection after SLA
+        RC->>FIN: chase 3PL remittance
+    end
+
+    opt combined payment methods
+        RC->>RC: split across tenders<br/>(Paymob + COD, Gift Card + COD, Store Credit + COD)
+        Note right of RC: 45 Gift Card + COD and 25 Paymob + COD<br/>rows exist. Item-level margin needs the<br/>split, not just the order total.
+    end
+
+    RC->>RC: allocate collected amount to ORDER_ITEMS<br/>pro-rata by item value
+    RC->>DB: update item-level payment tracking (Req 2.1)
+
+    RC->>FIN: publish reconciliation report<br/>(matched / exceptions / ageing)
+    FIN->>DB: resolve exceptions with audit trail

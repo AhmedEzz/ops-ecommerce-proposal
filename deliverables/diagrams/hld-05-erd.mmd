@@ -1,0 +1,228 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'12px'}}}%%
+erDiagram
+    VENDORS ||--o{ PRODUCTS : supplies
+    VENDORS ||--o{ ORDER_ITEMS : fulfils
+    VENDORS ||--o{ VENDOR_LEDGER_ENTRIES : accrues
+    VENDORS ||--o{ SETTLEMENTS : "is paid by"
+    VENDORS ||--o{ PENALTIES : incurs
+    VENDORS ||--o{ RETURN_POLICIES : defines
+    VENDORS ||--o{ VENDOR_USERS : "logs in as"
+
+    PRODUCTS ||--o{ PRODUCT_VARIANTS : has
+    PRODUCTS ||--o{ PRODUCT_FABRIC_BOM : consumes
+    RAW_FABRICS ||--o{ PRODUCT_FABRIC_BOM : "is consumed by"
+    RAW_FABRICS ||--o{ FABRIC_MOVEMENTS : records
+
+    PRODUCT_VARIANTS ||--o{ ORDER_ITEMS : "is ordered as"
+    PRODUCT_VARIANTS ||--o{ INVENTORY_LEVELS : "stocked at"
+    LOCATIONS ||--o{ INVENTORY_LEVELS : holds
+    LOCATIONS ||--o{ ORDER_ITEMS : "fulfils from"
+
+    ORDERS ||--|{ ORDER_ITEMS : "splits into"
+    ORDERS ||--o{ PAYMENTS : "is paid by"
+
+    ORDER_ITEMS ||--o{ SHIPMENTS : "ships via"
+    ORDER_ITEMS ||--o{ FINANCIAL_SNAPSHOTS : "valued by"
+    ORDER_ITEMS ||--o{ RETURN_ITEMS : "returned as"
+    ORDER_ITEMS ||--o{ VENDOR_LEDGER_ENTRIES : "posts"
+    ORDER_ITEMS ||--o{ ITEM_STATUS_HISTORY : "transitions"
+
+    SHIPMENTS ||--o{ SHIPMENT_EVENTS : "tracked by"
+    COURIERS ||--o{ SHIPMENTS : carries
+
+    RETURN_REQUESTS ||--|{ RETURN_ITEMS : contains
+    RETURN_REASONS ||--o{ RETURN_ITEMS : classifies
+    RETURN_ITEMS ||--o| EXCHANGES : "may create"
+    RETURN_ITEMS ||--o| REFUNDS : "may create"
+    RETURN_REQUESTS ||--o{ SHIPMENTS : "reverse pickup"
+    EXCHANGES ||--o| ORDERS : "creates replacement"
+
+    SETTLEMENTS ||--|{ SETTLEMENT_LINES : itemises
+    VENDOR_LEDGER_ENTRIES ||--o| SETTLEMENT_LINES : "settled by"
+
+    USERS ||--o{ AUDIT_LOG : performs
+    ROLES ||--o{ USERS : grants
+    ROLES ||--o{ ROLE_PERMISSIONS : holds
+    PERMISSIONS ||--o{ ROLE_PERMISSIONS : "granted via"
+    USERS ||--o{ USER_SESSIONS : opens
+    USERS ||--o{ REPORT_DEFINITIONS : owns
+    USERS ||--o{ SETTINGS : "last changed by"
+    USERS ||--o{ API_CREDENTIALS : rotates
+
+    INTEGRATION_EVENTS ||--o{ AUDIT_LOG : triggers
+
+    ORDER_ITEMS {
+        bigint id PK "AGGREGATE ROOT"
+        bigint order_id FK
+        string item_ref "1000-1, 1000-2"
+        bigint vendor_id FK
+        bigint variant_id FK
+        bigint location_id FK "warehouse or vendor"
+        string business_model "vendor|private_label|retail"
+        string status "state machine"
+        decimal selling_price
+        int quantity
+        timestamp created_at
+    }
+
+    FINANCIAL_SNAPSHOTS {
+        bigint id PK "APPEND ONLY - never UPDATE"
+        bigint order_item_id FK
+        decimal selling_price
+        decimal vendor_cost
+        decimal shipping_cost
+        decimal commission
+        decimal net_margin
+        string reason "why written"
+        timestamp effective_at "read as-of order date"
+    }
+
+    VENDOR_LEDGER_ENTRIES {
+        bigint id PK "double-entry, reversing"
+        bigint vendor_id FK
+        bigint order_item_id FK
+        string entry_type "sale|commission|penalty|return_reversal|adjustment"
+        decimal amount "signed"
+        bigint reverses_entry_id FK "nullable"
+        timestamp posted_at
+    }
+
+    RETURN_REQUESTS {
+        bigint id PK "IN-HOUSE - replaces E-stebdal"
+        bigint order_id FK
+        string channel "cs_console|customer_portal"
+        string type "return|exchange"
+        string status "requested|approved|rejected|picked|received|closed"
+        bigint approved_by FK
+        timestamp requested_at
+    }
+
+    RETURN_ITEMS {
+        bigint id PK
+        bigint return_request_id FK
+        bigint order_item_id FK
+        bigint reason_id FK
+        string qc_outcome "accepted|rejected|damaged"
+        decimal refund_amount
+        boolean vendor_chargeable
+    }
+
+    RETURN_REASONS {
+        bigint id PK "56 values ported from sheet"
+        string label
+        string stakeholder "Commercial|Marketing|Customer Behavior|Ops|CS|3PL"
+        boolean counts_against_vendor
+    }
+
+    RETURN_POLICIES {
+        bigint id PK "per-vendor eligibility"
+        bigint vendor_id FK
+        int return_window_days
+        json excluded_categories
+        boolean exchange_allowed
+    }
+
+    REFUNDS {
+        bigint id PK "ledger obligation, not auto-payment"
+        bigint return_item_id FK
+        decimal amount
+        string method "wallet|instapay|bank|store_credit"
+        string status "pending|paid|failed"
+        timestamp settled_at
+    }
+
+    INTEGRATION_EVENTS {
+        bigint id PK "webhook inbox"
+        string source "shopify|bosta|paymob"
+        string external_id UK "idempotency key"
+        json payload
+        string status "pending|processed|failed|dlq"
+        int attempts
+    }
+
+    AUDIT_LOG {
+        bigint id PK
+        bigint user_id FK
+        string entity_type
+        bigint entity_id
+        json old_value
+        json new_value
+        timestamp created_at
+    }
+
+    USERS {
+        bigint id PK
+        string name
+        string email UK
+        bigint role_id FK
+        boolean two_factor_enabled "mandatory for super_admin, finance"
+        string two_factor_secret "encrypted"
+        string status "active|suspended"
+        timestamp last_seen_at
+    }
+
+    ROLES {
+        bigint id PK
+        string key UK "super_admin|ops|cs|qc|finance|vendor"
+        string label
+        boolean requires_two_factor
+        boolean is_system "system roles cannot be deleted"
+    }
+
+    PERMISSIONS {
+        bigint id PK
+        string key UK "orders.cancel, settlements.approve, ..."
+        string group_label
+    }
+
+    ROLE_PERMISSIONS {
+        bigint role_id FK
+        bigint permission_id FK
+    }
+
+    USER_SESSIONS {
+        bigint id PK
+        bigint user_id FK
+        string ip_address
+        string user_agent
+        timestamp last_active_at
+        timestamp expires_at "60 min idle"
+    }
+
+    API_CREDENTIALS {
+        bigint id PK "write-only - never returned to the browser"
+        string provider "shopify|bosta|paymob|ses"
+        string environment "production|sandbox"
+        string secret "encrypted at rest"
+        string webhook_signing_key "encrypted"
+        timestamp rotated_at
+        bigint rotated_by FK
+    }
+
+    SETTINGS {
+        bigint id PK "business rules, config not code"
+        string scope "global|vendor|courier"
+        bigint scope_id "nullable"
+        string key "commission_rate, return_window_days, ..."
+        json value
+        timestamp effective_from
+        bigint changed_by FK
+    }
+
+    REPORT_DEFINITIONS {
+        bigint id PK "Phase 1b"
+        string name
+        string dataset
+        json columns
+        json filters
+        string schedule "daily|weekly|monthly|on_demand"
+        json recipients
+        string format "xlsx|csv|pdf"
+    }
+
+    PRODUCT_FABRIC_BOM {
+        bigint id PK "Phase 2"
+        bigint product_id FK
+        bigint raw_fabric_id FK
+        decimal metres_per_unit
+    }

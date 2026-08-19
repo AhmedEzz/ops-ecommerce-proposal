@@ -1,0 +1,59 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start([Confirmed item awaiting fulfilment]) --> check{"Vendor marks<br/>Ready-To-Ship<br/>within SLA?"}
+
+    check -->|yes| ok([Proceed to AWB creation])
+
+    check -->|"SLA breached"| breach["SLA breach detected<br/><i>automatic sweep, not a manual chase</i>"]
+    breach --> notify["Auto-notify vendor<br/>portal + email"]
+    notify --> grace{"Vendor responds<br/>within grace period?"}
+
+    grace -->|"marks ready"| ok
+    grace -->|"declares OOS"| oos
+    grace -->|"no response"| oos
+
+    oos["<b>Out of Stock declared</b><br/><i>409 OOS rows in the sheet</i>"]
+    oos --> multi{"Is this a<br/>multi-item order?"}
+
+    multi -->|"single item"| cancelall["Cancel the whole order"]
+    multi -->|"multi-item"| partial["<b>Cancel ONLY this item</b><br/>1000-2 cancelled<br/>1000-1 and 1000-3 ship normally"]
+
+    Note1["This is the core reason for item-level<br/>architecture. Today an OOS item from<br/>one vendor blocks the entire order.<br/>4,110 rows are multi-vendor orders."]
+    partial -.- Note1
+
+    partial --> alt{"Substitute<br/>available from<br/>another vendor?"}
+    alt -->|yes| resource["Re-source item to alternate vendor<br/><i>reassign vendor_id, keep item_ref</i>"]
+    alt -->|no| refunditem["Refund / adjust item value"]
+
+    resource --> ok
+
+    cancelall --> refunditem
+    refunditem --> paid{"Was the item<br/>already paid?"}
+    paid -->|"COD - not collected"| nocharge["No collection - close"]
+    paid -->|"Paymob - prepaid"| refundflow["Create refund obligation<br/><i>ledger entry, manual settlement</i>"]
+
+    partial --> pen
+    cancelall --> pen
+
+    pen{"Is the vendor<br/>at fault?"}
+    pen -->|yes| penalty["Post PENALTY to vendor ledger<br/><i>reason recorded, deducted at settlement</i>"]
+    pen -->|"no - platform/data error"| nopen["No penalty - log root cause"]
+
+    penalty --> score["Update vendor scorecard<br/><i>cancellation rate</i>"]
+    nopen --> score
+
+    score --> cust["Notify customer<br/><i>+ offer alternative if re-sourced</i>"]
+    cust --> done([Item closed])
+
+    nocharge --> done
+    refundflow --> done
+
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef note fill:#f8fafc,stroke:#94a3b8,color:#475569
+
+    class oos,cancelall,penalty bad
+    class breach,notify,partial,refunditem,refundflow warn
+    class ok,resource,done,nocharge good
+    class Note1 note

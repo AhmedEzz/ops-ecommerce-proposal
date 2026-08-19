@@ -1,0 +1,43 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start(["Original item received at warehouse<br/><b>Returned (WH)</b>"]) --> qc{"Warehouse QC"}
+
+    qc -->|accepted| ok["Exchange completed"]
+    qc -->|"rejected - damaged"| chase["Escalate to CS<br/><i>charge the customer or absorb</i>"]
+
+    ok --> finance["<b>Financial treatment</b>"]
+
+    Note1["The replacement item CARRIES the original financial<br/>snapshot. Revenue is NOT recognised twice - an exchange<br/>is a fulfilment substitution, not a new sale.<br/>Only the delta posts as a new ledger entry.<br/>Getting this wrong double-counts GMV and<br/>overstates vendor payables."]
+    finance -.- Note1
+
+    finance --> link["Link replacement item<br/>-> original snapshot"]
+    link --> delta["Post ONLY the delta<br/><i>price difference + extra shipping</i>"]
+
+    delta --> restock{"Original<br/>restockable?"}
+    restock -->|yes| stockin["Return to sellable inventory"]
+    restock -->|no| vendorback["Return to vendor / write off"]
+
+    stockin --> score
+    vendorback --> score
+    chase --> score
+
+    score["Update vendor scorecard<br/><i>exchange rate + size-issue analytics</i>"]
+
+    score --> insight["Feed product analytics<br/><i>a SKU with recurring size issues<br/>flags its size chart for review</i>"]
+
+    Note2["'Missing size chart' appears 127 times as a<br/>return reason. Closing that loop - returns data<br/>driving a catalogue fix - is what a generic<br/>SaaS returns app cannot do."]
+    insight -.- Note2
+
+    insight --> done([Exchange closed])
+
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef hot fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px
+    classDef note fill:#f8fafc,stroke:#94a3b8,color:#475569
+
+    class ok,stockin,done,insight good
+    class chase,vendorback bad
+    class qc,restock warn
+    class finance,link,delta hot
+    class Note1,Note2 note

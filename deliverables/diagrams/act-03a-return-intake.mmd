@@ -1,0 +1,59 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start(["Return requested<br/><i>CS console (Phase 1) or customer portal (Phase 1b)</i>"]) --> lookup["Look up order + item<br/><i>order number + phone</i>"]
+
+    lookup --> elig{"<b>Eligibility Engine</b><br/><i>per-vendor policy</i>"}
+
+    subgraph checks["All checks must pass"]
+        direction LR
+        e1{"Within vendor's<br/>return window?"}
+        e2{"Category<br/>returnable?"}
+        e3{"Already returned<br/>or exchanged?"}
+        e4{"Item reached<br/>Delivered?"}
+    end
+
+    elig --> checks
+
+    e1 -->|no| reject
+    e2 -->|"excluded<br/>(e.g. intimates)"| reject
+    e3 -->|yes| reject
+    e4 -->|"no - still in transit"| redirect["Redirect to<br/>cancellation / RTO flow"]
+
+    checks -->|"all pass"| eligible["<b>Eligible</b>"]
+
+    reject["<b>Reject</b> with a specific reason<br/><i>+ show the policy text</i>"]
+    reject --> logrej["Log rejection + reason<br/><i>feeds policy analytics</i>"]
+    logrej --> endr([Closed - not eligible])
+
+    eligible --> reason["Select reason from the<br/><b>56-value taxonomy</b><br/><i>with stakeholder attribution</i>"]
+
+    reason --> type{"Return or<br/>exchange?"}
+    type -->|exchange| exch([Go to exchange workflow])
+    type -->|return| confirm["<b>Confirm Return (CS)</b>"]
+
+    confirm --> pickup["<b>Ready-To-Pick</b><br/>Create Bosta REVERSE pickup AWB"]
+    pickup --> transit["<b>Under Return (3PL)</b><br/><i>tracked by webhook, not phone calls</i>"]
+    transit --> arrive["Arrived at warehouse"]
+
+    arrive --> qc{"<b>Warehouse QC</b><br/>item condition?"}
+
+    qc -->|"as sold"| accept["<b>Returned (WH)</b><br/>QC accepted"]
+    qc -->|"damaged / used"| dispute["QC rejected<br/>-> escalate to CS"]
+    qc -->|"wrong item returned"| dispute
+
+    dispute --> resolve{"CS resolution"}
+    resolve -->|"accept anyway (goodwill)"| accept
+    resolve -->|"refuse return"| refuse["Return refused<br/>Ship item back to customer<br/>No reversal posted"]
+    refuse --> endr
+
+    accept --> next(["Continue to financial posting<br/><i>see next diagram</i>"])
+
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef hot fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px
+
+    class eligible,accept,next good
+    class reject,dispute,refuse,endr bad
+    class qc,resolve,logrej,redirect warn
+    class elig,reason hot

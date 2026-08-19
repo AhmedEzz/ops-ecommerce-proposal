@@ -1,0 +1,64 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+sequenceDiagram
+    autonumber
+    actor CU as Customer
+    actor CS as CS Agent
+    participant UI as Returns Console
+    participant EL as Eligibility Engine
+    participant RS as Returns Service
+    participant IV as Inventory
+    participant BA as Bosta Adapter
+    participant SP as Shopify
+    participant FE as Financial Engine
+
+    Note over CU,FE: Requirement 5 - IN-HOUSE exchange.<br/>Scenario 4: Exchange request -> Confirm Exchange (CS) -> Ready-To-Pick -> Under Return (3PL) -> Returned (WH)<br/>1,612 exchange-tagged items in 7 months.<br/>"Size Issue - Exchange Created" is the top driver.
+
+    CU->>UI: request exchange (wrong size)
+    UI->>EL: check eligibility + vendor allows exchange
+    EL-->>UI: eligible
+
+    CS->>UI: select replacement variant (size L)
+    UI->>IV: is replacement variant in stock?
+
+    alt replacement available
+        IV-->>UI: reserved
+    else replacement out of stock
+        IV-->>UI: unavailable
+        CS->>UI: offer alternative variant or convert to refund
+        Note right of UI: "Size Issue - Returned (No Exchange)"<br/>occurs 1,050x. Making stock visible<br/>at request time is what converts<br/>those into retained revenue.
+    end
+
+    CS->>UI: Confirm Exchange
+    UI->>RS: createReturnRequest(type = exchange)
+    RS->>RS: INSERT RETURN_REQUESTS + RETURN_ITEMS + EXCHANGES
+    RS->>RS: original item status -> Ready-To-Pick
+
+    par reverse leg
+        RS->>BA: create reverse pickup AWB (collect original)
+        BA-->>RS: reverse tracking number
+        RS->>RS: status -> Under Return
+    and forward leg
+        RS->>SP: create replacement order (linked to original)
+        SP-->>RS: replacement order id
+        RS->>BA: create forward AWB for replacement item
+        Note right of BA: Bosta supports collect-and-deliver<br/>in one visit where the zone allows -<br/>the adapter uses it when available.
+    end
+
+    RS->>FE: value the exchange
+
+    Note over FE: The replacement item CARRIES the original<br/>financial snapshot. Revenue is not<br/>recognised twice - the exchange is a<br/>fulfilment substitution, not a new sale.
+
+    FE->>FE: link replacement item -> original snapshot
+    FE->>FE: post only the DELTA (price difference,<br/>extra shipping) as new ledger entries
+
+    alt customer pays a price difference
+        FE->>SP: charge difference via Paymob link
+    else refund a price difference
+        FE->>FE: create REFUND for the delta only
+    end
+
+    BA->>RS: original received at warehouse
+    RS->>RS: QC receipt -> exchange closed
+
+    RS->>UI: update vendor scorecard (exchange rate)
+    Note right of UI: Exchange rate per vendor feeds<br/>Requirement 10 - Vendor Score Card.

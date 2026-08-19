@@ -1,0 +1,54 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+sequenceDiagram
+    autonumber
+    actor VD as Vendor
+    participant VP as Vendor Portal
+    participant PS as Product Service
+    participant AQ as Approval Queue
+    actor QC as QC / Admin
+    participant SA as Shopify Adapter
+    participant SP as Shopify
+    participant AU as Audit Log
+
+    Note over VD,AU: Requirement 8.1 - new products need approval -<br/>stock and price updates go live WITHOUT approval.
+
+    alt vendor uploads a NEW product
+        VD->>VP: upload product (images, description, variants, price)
+        VP->>PS: submit
+        PS->>PS: validate (required fields, image count, size chart)
+        Note right of PS: "Missing size chart" appears 127x<br/>as a return reason. Making it a<br/>required field at upload is the<br/>cheapest possible fix.
+        PS->>PS: status = Pending Approval
+        PS->>AQ: enqueue for QC
+        PS->>AU: log submission
+
+        QC->>AQ: review
+        alt approved
+            QC->>PS: approve
+            PS->>SA: publish to Shopify
+            SA->>SP: productCreate + variants
+            SP-->>SA: product id
+            PS->>PS: status = Live
+            PS->>VD: notify - product live
+        else rejected
+            QC->>PS: reject with reason
+            PS->>VD: notify - rejected + what to fix
+            Note right of VD: Vendor edits and resubmits.<br/>Nothing reaches the storefront<br/>without QC. (Req 8.1)
+        end
+
+    else vendor updates STOCK or PRICE
+        VD->>VP: update stock / price
+        VP->>PS: apply immediately
+        PS->>SA: sync to Shopify
+        SA->>SP: inventorySetQuantities / variant price update
+        PS->>AU: log old value -> new value
+        Note right of PS: No approval gate - explicitly<br/>allowed by Req 8.1. Speed matters<br/>more than control here. The audit<br/>log provides accountability.
+
+    else vendor edits an EXISTING product's content
+        VD->>VP: edit title / images / description
+        VP->>PS: create pending revision
+        PS->>AQ: enqueue for QC
+        Note right of AQ: The live product stays live on<br/>the old content until approved -<br/>no storefront gap.
+    end
+
+    PS->>AU: INSERT AUDIT_LOG<br/>(user, timestamp, old_value, new_value)
+    Note over AU: Requirement 12.4 - full accountability<br/>for every vendor-initiated change.

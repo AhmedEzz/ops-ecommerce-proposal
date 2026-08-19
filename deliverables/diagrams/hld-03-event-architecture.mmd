@@ -1,0 +1,47 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart LR
+    subgraph sources["Event Sources"]
+        s1["Shopify<br/>orders/create, orders/updated,<br/>fulfillments, returns/*"]
+        s2["Bosta<br/>shipment status,<br/>reverse pickup, flex ship"]
+        s3["Paymob<br/>transaction, refund,<br/>disbursement callbacks"]
+        s4["Internal<br/>CS actions, QC receipt,<br/>settlement runs"]
+    end
+
+    s1 & s2 & s3 --> recv
+
+    recv["<b>Webhook Receiver</b><br/>1. verify HMAC signature<br/>2. persist raw payload<br/>3. return 200 immediately"]
+
+    recv --> inbox[("<b>integration_events</b><br/>webhook inbox<br/><i>unique: source + external_id</i><br/>idempotency boundary")]
+
+    s4 --> bus
+
+    inbox --> bus{{"<b>Event Dispatcher</b><br/>dedupe - ordered per order_item<br/>retry w/ exponential backoff"}}
+
+    bus --> h1["Order Ingestion Handler<br/><i>split into order_items</i>"]
+    bus --> h2["Shipment Status Handler"]
+    bus --> h3["Payment Handler"]
+    bus --> h4["<b>Returns Handler</b>"]
+
+    h1 & h2 & h3 & h4 --> proj["Projection / State Machine<br/><i>order_item status transitions</i>"]
+
+    proj --> fin["Financial Engine<br/><i>append financial_snapshots</i><br/><i>post vendor_ledger_entries</i>"]
+    proj --> notif["Notification Dispatcher<br/><i>vendor email, AWB PDF</i>"]
+    proj --> aud["Audit Log<br/><i>user, timestamp, old, new</i>"]
+
+    fin --> read[("Read Models<br/>dashboards, scorecards, P&amp;L")]
+    proj --> read
+
+    dlq[["Dead Letter Queue<br/><i>alert + manual replay</i>"]]
+    bus -.->|"after N retries"| dlq
+
+    classDef src fill:#f1f5f9,stroke:#94a3b8
+    classDef core fill:#4f46e5,stroke:#3730a3,color:#ffffff,stroke-width:2px
+    classDef store fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef handler fill:#eef2ff,stroke:#6366f1
+    classDef warn fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+
+    class s1,s2,s3,s4 src
+    class recv,bus core
+    class inbox,read store
+    class h1,h2,h3,h4,proj,fin,notif,aud handler
+    class dlq warn

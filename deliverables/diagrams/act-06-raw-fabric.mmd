@@ -1,0 +1,70 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start(["Raw fabric received<br/><i>Phase 2 - Requirement 7.2</i>"]) --> receipt["Record FABRIC_MOVEMENT<br/>type = receipt<br/><i>colour, supplier, metres, cost</i>"]
+
+    receipt --> stock[("<b>Raw fabric inventory</b><br/>e.g. Brown Fabric: 500 m")]
+
+    bom["<b>Product-Fabric BOM</b><br/>Product A -> Brown, 1.8 m/unit<br/>Product B -> Brown, 2.4 m/unit<br/>Product C -> Brown, 1.2 m/unit"]
+
+    Note1["Many finished products consume the SAME<br/>raw fabric. Deduction must be driven by a<br/>bill of materials, not by a per-product<br/>stock count - otherwise the shared pool<br/>is double-counted."]
+    bom -.- Note1
+
+    order([Production order raised]) --> qty["Specify product + quantity<br/><i>e.g. 100 x Product A</i>"]
+    qty --> calc["Compute requirement from BOM<br/><i>100 x 1.8 m = 180 m Brown</i>"]
+
+    calc --> avail{"Sufficient<br/>raw fabric?"}
+    bom --> calc
+    stock --> avail
+
+    avail -->|no| shortfall["<b>Shortfall flagged</b><br/>Block or part-release the order"]
+    shortfall --> po["Raise purchase requirement<br/><i>with lead time</i>"]
+    po --> receipt
+
+    avail -->|yes| reserve["Reserve fabric<br/><i>soft allocation</i>"]
+    reserve --> produce["Production runs"]
+    produce --> consume["Record FABRIC_MOVEMENT<br/>type = consumption<br/><i>deduct actual metres used</i>"]
+
+    consume --> stock
+    consume --> variance{"Actual vs<br/>BOM variance?"}
+    variance -->|"within tolerance"| ok["Log normal wastage"]
+    variance -->|"exceeds tolerance"| invest["Flag for investigation<br/><i>cutting waste or bad BOM</i>"]
+    invest --> updatebom["Revise BOM if systematic"]
+    updatebom --> bom
+
+    produce --> finished["Finished goods -> sellable inventory"]
+    finished --> sales[("Sales velocity<br/><i>from order_items</i>")]
+
+    stock --> monitor{"<b>Continuous monitoring</b>"}
+    sales --> monitor
+
+    monitor --> thresh{"Below low-stock<br/>threshold?"}
+    thresh -->|yes| alert["<b>Low stock alert</b><br/><i>to production + purchasing</i>"]
+    thresh -->|no| forecast
+
+    alert --> po
+
+    forecast["<b>Depletion forecast</b><br/>remaining metres / consumption rate<br/><i>= expected depletion date</i>"]
+
+    Note2["Forecast blends production plan with actual<br/>sales velocity per product, so a fast-selling<br/>SKU pulls its fabric's depletion date forward.<br/>This is the proactive part of Req 7.2 -<br/>avoiding production delays, not just<br/>reporting stock after the fact."]
+    forecast -.- Note2
+
+    forecast --> horizon{"Depletion date<br/>inside supplier<br/>lead time?"}
+    horizon -->|yes| alert
+    horizon -->|no| dash["Show on inventory dashboard"]
+
+    ok --> dash
+    dash --> done([Continuous cycle])
+
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef store fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef hot fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px
+    classDef note fill:#f8fafc,stroke:#94a3b8,color:#475569
+
+    class reserve,produce,finished,ok,dash,done good
+    class shortfall,invest bad
+    class alert,po,variance,updatebom warn
+    class stock,sales store
+    class bom,calc,forecast,monitor hot
+    class Note1,Note2 note

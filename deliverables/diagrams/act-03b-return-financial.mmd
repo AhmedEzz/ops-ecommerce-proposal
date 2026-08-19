@@ -1,0 +1,53 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start(["Return accepted at warehouse QC"]) --> fin["<b>Financial posting</b>"]
+
+    fin --> rev["Post RETURN_REVERSAL<br/><i>reverses the original SALE entry</i>"]
+
+    Note1["The ORIGINAL financial snapshot is never modified.<br/>The reversal is a NEW, separately dated ledger entry -<br/>so historical margin (Req 6.3) and vendor deduction<br/>(Req 8.7) are both satisfied without conflict."]
+    rev -.- Note1
+
+    rev --> refund["Create REFUND<br/><i>status = pending obligation</i>"]
+
+    Note2["COD refunds in Egypt are largely manual.<br/>A refund is a LEDGER OBLIGATION with a<br/>settlement step - never an automatic payment."]
+    refund -.- Note2
+
+    refund --> method{"Refund<br/>method"}
+    method -->|"COD order"| manual["Manual settlement<br/><i>wallet / InstaPay / bank</i>"]
+    method -->|"Paymob prepaid"| psp["Refund via Paymob"]
+    method -->|"store credit"| credit["Issue Shopify store credit"]
+
+    manual --> proof["Finance records proof<br/>-> refund marked paid"]
+    psp --> proof
+    credit --> proof
+
+    fin --> vendorq{"Reason attributable<br/>to the vendor?"}
+    vendorq -->|"e.g. Defected Item - Vendor Fault<br/>(115 occurrences)"| pen["Post PENALTY<br/>to vendor ledger"]
+    vendorq -->|"e.g. Customer Changed Mind"| nopen["No vendor charge"]
+
+    pen --> score["Update vendor scorecard<br/><i>return rate + penalty history</i>"]
+    nopen --> score
+
+    start --> restock{"Item<br/>restockable?"}
+    restock -->|yes| stockin["Return to sellable inventory"]
+    restock -->|no| writeoff["Write off / return to vendor"]
+
+    proof --> sync["Write the return + refund<br/>back into Shopify"]
+    score --> sync
+    stockin --> sync
+    writeoff --> sync
+
+    sync --> settle["Deduction appears on the<br/>vendor's next settlement"]
+    settle --> done([Return closed - fully audited])
+
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef hot fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px
+    classDef note fill:#f8fafc,stroke:#94a3b8,color:#475569
+
+    class stockin,proof,done,settle good
+    class pen,writeoff bad
+    class manual,method,restock,vendorq warn
+    class fin,rev,refund hot
+    class Note1,Note2 note

@@ -1,0 +1,66 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+sequenceDiagram
+    autonumber
+    actor U as Staff user
+    participant UI as Login screen
+    participant AU as Auth service<br/>(Laravel Fortify)
+    participant DB as PostgreSQL
+    participant RB as RBAC resolver
+    participant AL as Audit Log
+
+    Note over U,AL: Two-factor is mandatory for Super Admin and Finance only -<br/>the two roles that hold payment credentials and approve settlements.
+
+    U->>UI: email + password
+    UI->>AU: attempt(credentials)
+    AU->>DB: load user by email
+
+    alt account suspended
+        DB-->>AU: status = suspended
+        AU->>AL: log failed attempt (reason = suspended)
+        AU-->>UI: generic "invalid credentials"
+        Note right of AU: The message never reveals whether<br/>the account exists or is suspended -<br/>that would confirm valid emails<br/>to an attacker.
+    else password incorrect
+        AU->>AU: increment failed counter
+        AU->>AL: log failed attempt
+        alt 5 failures within 15 minutes
+            AU-->>UI: account locked, retry later
+        else
+            AU-->>UI: invalid credentials
+        end
+    else password correct
+        AU->>RB: resolve role for this user
+        RB-->>AU: role + capability set
+
+        alt role requires 2FA (Super Admin or Finance)
+            AU-->>UI: challenge - TOTP required
+            U->>UI: 6-digit authenticator code
+            UI->>AU: verify(code)
+            alt code invalid or expired
+                AU->>AL: log failed 2FA
+                AU-->>UI: reject, allow retry
+            else code valid
+                AU->>DB: create session (device, IP, expiry)
+                AU->>AL: log successful sign-in + 2FA
+            end
+        else 2FA not required
+            AU->>DB: create session (device, IP, expiry)
+            AU->>AL: log successful sign-in
+        end
+    end
+
+    AU-->>UI: session established
+    UI->>RB: build navigation for this role
+    RB-->>UI: only permitted routes
+
+    Note over UI,RB: The sidebar is generated from the same capability<br/>set the guard enforces, so a link can never appear<br/>that the guard would then refuse.
+
+    U->>UI: request a screen
+    UI->>RB: allowed(route, role)?
+    alt permitted
+        RB-->>UI: render screen
+    else not permitted
+        RB->>AL: log refused access (user, route, timestamp)
+        RB-->>UI: refusal panel, not a blank page
+    end
+
+    Note over DB,AL: Idle sessions expire after 60 minutes.<br/>Suspending a user revokes every active session<br/>immediately, but their audit history is retained -<br/>deleting a user would orphan every action they took.

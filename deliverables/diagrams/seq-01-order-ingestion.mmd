@@ -1,0 +1,53 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+sequenceDiagram
+    autonumber
+    participant SH as Shopify
+    participant WR as Webhook Receiver
+    participant IB as integration_events<br/>(inbox)
+    participant DP as Event Dispatcher
+    participant OI as Order Ingestion
+    participant DB as PostgreSQL
+    participant FE as Financial Engine
+    participant OPS as Ops Console
+
+    Note over SH,OPS: Requirement 1.2, 2.1, 2.2 - order arrives and is split to item level
+
+    SH->>WR: POST orders/create (HMAC signed)
+    WR->>WR: verify HMAC signature
+    alt signature invalid
+        WR-->>SH: 401 - drop, alert security
+    end
+    WR->>IB: INSERT (source, external_id, payload)
+    Note right of IB: UNIQUE(source, external_id)<br/>duplicate delivery = no-op
+    WR-->>SH: 200 OK (under 500ms)
+
+    IB->>DP: dispatch pending event
+    DP->>OI: handle OrderCreated
+
+    OI->>DB: upsert ORDERS (#30537)
+
+    loop for each Shopify line item
+        OI->>OI: resolve vendor from SKU / product owner
+        OI->>OI: resolve fulfilment location<br/>(warehouse vs vendor stock)
+        OI->>OI: classify business model<br/>(vendor / private label / retail)
+        OI->>DB: INSERT ORDER_ITEMS<br/>item_ref = 30537-1, 30537-2, ...
+    end
+
+    Note over OI,DB: Customer still sees a single order #30537.<br/>Internally each item has its own vendor,<br/>status, cost, margin and fulfilment flow.
+
+    OI->>FE: value each item
+    FE->>DB: INSERT FINANCIAL_SNAPSHOTS<br/>(append-only, effective_at = order date)
+    Note right of FE: Snapshot freezes today's cost,<br/>commission and margin.<br/>Later price changes never<br/>rewrite this row. (Req 6.3)
+
+    OI->>DB: INSERT ITEM_STATUS_HISTORY (status = New)
+    OI->>DB: INSERT AUDIT_LOG
+    OI->>IB: mark processed
+
+    DP-->>OPS: broadcast - new items in queue
+    OPS->>DB: read item-level worklist
+
+    alt handler throws
+        DP->>DP: retry with exponential backoff
+        DP->>IB: after N attempts, status = dlq
+        Note right of DP: DLQ alerts ops.<br/>Payload is retained so the<br/>event can be replayed<br/>after the fix.
+    end

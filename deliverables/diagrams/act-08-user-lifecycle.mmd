@@ -1,0 +1,51 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+flowchart TB
+    start(["Super Admin invites a user<br/><i>Users &amp; Access console</i>"]) --> assign["Assign a role<br/><i>Ops · CS · QC · Finance · Super Admin</i>"]
+
+    assign --> caps["Capability set resolved from<br/><b>Roles &amp; Permissions</b> matrix"]
+    caps --> invite["Invitation email sent<br/><i>single-use, expires in 72 hours</i>"]
+
+    invite --> accept{"Accepted<br/>in time?"}
+    accept -->|no| expire["Invitation expires<br/>-> re-issue or withdraw"]
+    accept -->|yes| pw["Set password<br/><i>12+ chars, breach-checked</i>"]
+
+    pw --> needs{"Role requires<br/>two-factor?"}
+    needs -->|"Super Admin or Finance"| enrol["<b>Enrol TOTP</b><br/><i>mandatory before first sign-in</i>"]
+    needs -->|"Ops · CS · QC"| optional["2FA offered but optional"]
+
+    enrol --> active
+    optional --> active
+
+    active["<b>Active</b><br/><i>sees only their role's screens</i>"]
+
+    active --> work{"Ongoing"}
+    work -->|"role changes"| assign
+    work -->|"password reset"| pw
+    work -->|"lost 2FA device"| reset2fa["Super Admin resets TOTP<br/><i>audited, re-enrolment forced</i>"]
+    reset2fa --> enrol
+
+    work -->|"leaves the company"| suspend
+
+    suspend["<b>Suspend</b>"]
+    suspend --> revoke["Revoke all sessions immediately<br/>+ revoke API tokens"]
+    revoke --> reassign["Reassign open work<br/><i>approval queues, returns in progress</i>"]
+    reassign --> retain["<b>Audit history retained</b>"]
+
+    Note1["Accounts are never hard-deleted. Deleting a user<br/>would orphan every order confirmation, return<br/>approval and settlement they touched, breaking<br/>the audit trail required by §12.4."]
+    retain -.- Note1
+
+    retain --> ended([Suspended - restorable by Super Admin])
+
+    expire --> ended
+
+    classDef good fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+    classDef warn fill:#fffbeb,stroke:#f59e0b,color:#78350f
+    classDef hot fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px
+    classDef note fill:#f8fafc,stroke:#94a3b8,color:#475569
+
+    class active,pw,invite,retain good
+    class suspend,revoke,expire bad
+    class reset2fa,optional,reassign warn
+    class caps,enrol,needs hot
+    class Note1 note

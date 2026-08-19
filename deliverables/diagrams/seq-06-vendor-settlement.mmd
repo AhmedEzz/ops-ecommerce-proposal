@@ -1,0 +1,67 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryTextColor':'#1e293b','primaryBorderColor':'#6366f1','lineColor':'#64748b','fontFamily':'Inter, Segoe UI, sans-serif','fontSize':'13px'}}}%%
+sequenceDiagram
+    autonumber
+    participant SC as Scheduler
+    participant ST as Settlement Service
+    participant LD as Vendor Ledger
+    actor FIN as Finance / Admin
+    participant PA as Paymob Adapter
+    participant PM as Paymob Send
+    participant OS as Object Storage
+    participant VP as Vendor Portal
+    actor VD as Vendor
+
+    Note over SC,VD: Requirement 8.4, 8.6, 12.1 - automated vendor settlement.<br/>Calculation is Phase 1. Automated Paymob Send disbursement is Phase 2.
+
+    SC->>ST: run settlement cycle (per vendor schedule)
+    ST->>LD: read unsettled entries for vendor
+
+    LD-->>ST: SALE credits (delivered items only)
+    LD-->>ST: COMMISSION debits
+    LD-->>ST: SHIPPING cost allocations
+    LD-->>ST: PENALTY debits
+    LD-->>ST: RETURN_REVERSAL debits
+    LD-->>ST: EXCHANGE adjustments
+    LD-->>ST: manual ADJUSTMENT / BONUS entries
+
+    ST->>ST: net payable = sum(signed amounts)
+    Note right of ST: Every line traces to an order_item.<br/>No aggregate is computed from a<br/>spreadsheet formula - the ledger<br/>is the single source of truth.
+
+    alt net payable <= 0
+        ST->>LD: carry negative balance to next cycle
+        Note right of LD: A vendor whose returns exceed<br/>sales this cycle owes the platform.<br/>Requirement 8.7.
+    end
+
+    ST->>ST: INSERT SETTLEMENTS + SETTLEMENT_LINES
+    ST->>VP: publish draft statement (vendor can preview)
+
+    FIN->>ST: review and approve
+    Note right of FIN: Human approval gate stays even<br/>in Phase 2. Money never moves<br/>on an automated decision alone.
+
+    alt Phase 1 - manual disbursement
+        FIN->>FIN: transfer via bank / wallet
+        FIN->>ST: upload transfer proof
+    else Phase 2 - Paymob Send
+        ST->>PA: disburse(vendor bank / wallet, amount)
+        PA->>PM: POST instant cashin / bulk disbursement
+        PM-->>PA: transaction reference
+        PM->>PA: HMAC-signed disbursement callback
+        alt disbursement succeeded
+            PA->>ST: mark settlement paid
+        else disbursement failed
+            PA->>ST: mark failed, alert finance, do NOT retry blindly
+            Note right of PA: Retrying a payout without an<br/>idempotency key is how vendors<br/>get paid twice. Never auto-retry.
+        end
+    end
+
+    ST->>OS: store transfer proof document
+    ST->>LD: mark entries settled (link to settlement_line)
+
+    par notify
+        ST->>VD: email - payout processed
+    and publish
+        ST->>VP: statement + transfer proof visible
+    end
+
+    VD->>VP: view next payout date, pending balance,<br/>previous payouts, proof PDF
+    Note over VD,VP: Requirement 8.4 + 8.6 -<br/>replaces the current manual<br/>vendor payout enquiries.
